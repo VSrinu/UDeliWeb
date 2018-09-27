@@ -1,0 +1,62 @@
+ h1{
+	color:#000000;
+}
+
+body {
+    background-color: #dedede;
+}
+
+h2{
+	color:red;	
+}
+
+h3{
+	color:red;	
+}
+  
+.jumbotron { 
+ background-color:#E0FCB6;
+}
+ 
+.jumbotron h1 { 
+font-size:70px;
+font-weight:bold;
+font-style: italic;
+font-family:'Shift', sans-serif;
+}
+
+.jumbotron a { 
+font-size:20px;
+font-weight:bold; 
+font-color:#000000;
+font-family:'Shift', sans-serif;
+}
+
+.voffset1 { margin-top: 13px; }
+.btnOffset { margin-top: 30px; }
+ 
+.labelfont{
+	font-size:14px;
+	font-weight:bold; 
+}
+
+.txtfont{
+	font-size:14px;
+}
+
+.tableheader{
+font-size:70px;
+font-weight:bold; 
+font-color:#000000;
+font-family:'Shift', sans-serif;
+}
+
+.successMsg{
+	font-size:20px;	
+	font-weight:bold; 
+	font-color:228B22;
+}
+
+.navbar-custom {
+    background-color: #E0FCB6; 
+}

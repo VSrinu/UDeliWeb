@@ -1,0 +1,7 @@
+body{background:#f9f9f9;}
+#wrapper{padding:90px 15px;}
+.card{margin-bottom: 15px; border-radius:0; box-shadow: 0 rgba(0,0,0,.1); }
+.header-top{box-shadow: 0 rgba(0,0,0,.1)}
+.full-color-table.full-inverse-table {
+    background-color: #f5f5f5;
+}

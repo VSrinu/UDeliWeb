@@ -1,0 +1,38 @@
+<!DOCTYPE html> <html xmlns:th="http://www.thymeleaf.org">
+ <head> 
+    <th:block th:include="header"></th:block> 
+</head>  
+<body>
+<nav class="navbar navbar-custom">
+    <div class="jumbotron ">
+   		 <h1>uDeli</h1>  
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span> 
+            </button> 
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="#" th:href="@{/}">Home</a>
+                </li> 
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            	<li >
+                    <a>
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></h1></span>
+                        <label th:text="${userName}"></label>
+                    </a>
+                </li>
+                <li >
+                    <a th:href="@{/logout}">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+</body>
+</html>

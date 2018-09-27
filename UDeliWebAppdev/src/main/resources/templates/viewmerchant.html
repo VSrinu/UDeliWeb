@@ -1,0 +1,44 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+ 	<th:block th:include="adminmenu"></th:block> 
+</head>
+<body>  
+<form method="post" th:object="${MerchantDetails}">
+<div class="container-fluid" >
+	<h3><strong>Merchant Details</strong></h3>
+	
+<div>
+  <label th:if="${SUCCESS_MESSAGE != null}" class="text-success" th:text="${SUCCESS_MESSAGE}"> </label>
+ </div>
+ 
+<div class="col-sm-8 col-md-offset-2">	
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<td class="labelfont"> Merchant Name</td>
+				<td class="labelfont"> Username</td>
+				<td class="labelfont"> Password</td>
+				<td class="labelfont"></td>  
+			</tr>
+		</thead>
+		<tbody>			
+	 		<tr th:each="merchantList, rowStat: ${merchantList}">	 		 
+	 			<td class="txtfont" th:text="${merchantList.name}"></td> 
+	        	<td class="txtfont" th:text="${merchantList.username}"></td>
+				<td class="txtfont" th:text="${merchantList.plaintextpass}"></td>
+				<td class="txtfont" ><a th:href="@{'/editmerchant?merchantid='+ ${merchantList.merchantid}}"> Edit </a>
+				       /<a th:href="@{'/deletemerchant?merchantid='+ ${merchantList.merchantid}}"> Delete </a></td>
+			</tr>
+    	</tbody> 
+	</table>
+</div>
+</div>
+ <div class="row btnOffset">
+	 <div class="col-lg-10" align="center" >
+     	<a th:href="@{/addmerchant}" class="btn btn-primary  btn-lg" type="submit"> ADD </a> 
+  	 </div>		  	 
+</div>
+</form>
+</body>
+</html>

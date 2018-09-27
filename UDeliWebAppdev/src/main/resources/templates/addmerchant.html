@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head> 
+    <th:block th:include="adminmenu"></th:block> 
+</head> 
+<body> 
+<form method="post" th:object="${merchantdetails}" th:action="@{/addmerchant}">
+  <input class="form-control hidden" th:field="*{merchantid}"  /> 
+<div class="container-fluid">
+<h3><strong>Add/Edit Merchant</strong></h3>
+	<div class="col-sm-10 col-md-offset-1" style="border-style: ridge;">	
+	  	<div class="row voffset1">
+		    <div class="col-lg-2">
+		     	<label class = "labelfont" for="username">Merchant Name</label>
+		    </div>
+		    <div class="col-lg-4 ">
+		     <input class="form-control input-lg" th:field="*{name}" />
+		     <label  th:if="${#fields.hasErrors('name')}"  class="text-danger" th:errors="*{name}"></label> 
+		    </div>
+		</div>		
+		<div class="row voffset1">
+		    <div class="col-lg-2">
+		     	<label class = "labelfont" for="address">Address</label>
+		    </div>
+		    <div class="col-lg-4">
+		     	<input class="form-control input-lg" th:placeholder="Address" th:field="*{address}" />
+		     	 <label  th:if="${#fields.hasErrors('address')}"  class="text-danger" th:errors="*{address}"></label> 
+		    </div>
+		</div>
+		 <div class="row voffset1">
+		    <div class="col-lg-2"></div>	
+		    <div class="col-lg-3">
+		    	<input class="form-control input-lg" th:placeholder="City" th:field="*{city}" />
+		     		<label  th:if="${#fields.hasErrors('city')}"  class="text-danger" th:errors="*{city}"></label> 
+		    </div>
+		    <div class="col-lg-2">
+		    	<input class="form-control input-lg" th:placeholder="State" th:field="*{state}" />
+		     	<label  th:if="${#fields.hasErrors('state')}"  class="text-danger" th:errors="*{state}"></label> 
+		    </div>
+		    <div class="col-lg-2">
+		   		<input class="form-control input-lg" th:placeholder="Zip" th:field="*{zip}" />
+		     	<label  th:if="${#fields.hasErrors('zip')}"  class="text-danger" th:errors="*{zip}"></label> 
+		    </div>	
+		    <div class="col-lg-2">
+		   		<input class="form-control input-lg" th:placeholder="Country" th:field="*{country}" />
+		     	<label  th:if="${#fields.hasErrors('country')}"  class="text-danger" th:errors="*{country}"></label> 
+		    </div>		
+		</div>
+		<div class="row voffset1">
+		 	 <div class="col-lg-2">
+		     	<label  class = "labelfont" for="phonenumber">Phone Number</label>
+		   	 </div>
+		  	<div class="col-lg-4">
+		  		<input class="form-control input-lg" th:placeholder="PhoneNumber" th:field="*{phonenumber}" />
+		     	<label  th:if="${#fields.hasErrors('phonenumber')}"  class="text-danger" th:errors="*{phonenumber}"></label> 
+		    </div>
+		 </div>
+		 
+		 <div class="row voffset1">
+		 	 <div class="col-lg-2">
+		     	<label  class = "labelfont" for="firstname">Name</label>
+		   	 </div>
+		  	<div class="col-lg-4">
+		  	<input class="form-control input-lg" th:placeholder="FirstName" th:field="*{firstname}" />
+		     	<label  th:if="${#fields.hasErrors('firstname')}"  class="text-danger" th:errors="*{firstname}"></label> 
+		    </div>
+		 
+		 <!-- <div class="row voffset1">
+		 	 <div class="col-lg-2">
+		     	<label  class = "labelfont" for="lastname">Last Name</label>
+		   	 </div> -->
+		  	<div class="col-lg-4">
+		  	 	<input class="form-control input-lg" th:placeholder="LastName" th:field="*{lastname}" />
+		     	<label  th:if="${#fields.hasErrors('lastname')}"  class="text-danger" th:errors="*{lastname}"></label> 
+		    </div>
+		  </div> 
+		  <div class="row voffset1">
+		 	 <div class="col-lg-2">
+		     	<label  class = "labelfont" for="email">Email</label>
+		   	 </div>
+		  	<div class="col-lg-4">
+		  		<input class="form-control input-lg" th:placeholder="Email" th:field="*{email}" />
+		     <label  th:if="${#fields.hasErrors('email')}"  class="text-danger" th:errors="*{email}"></label> 
+		    </div>
+		 </div>		 
+		 <div class="row voffset1">
+		 	 <div class="col-lg-2">
+		     	<label  class = "labelfont" for="username">User Credentials</label>
+		   	 </div>
+		  	<div class="col-lg-4">		  	
+		  		<input class="form-control input-lg" th:placeholder="UserName" th:field="*{username}" />
+		     	<label  th:if="${#fields.hasErrors('username')}"  class="text-danger" th:errors="*{username}"></label> 
+		    </div>
+		    <div class="col-lg-4">
+				<input class="form-control input-lg" th:placeholder="Password" th:field="*{plaintextpass}" />		    
+		     	<label  th:if="${#fields.hasErrors('plaintextpass')}"  class="text-danger" th:errors="*{plaintextpass}"></label> 
+		    </div>
+		 </div>		 
+		 
+		  <div class="row voffset1">
+		 	 <div class="col-lg-2">
+		     	<label  class = "labelfont" for="description">Description</label>
+		   	 </div>
+		  	<div class="col-lg-4">
+		  		<input class="form-control input-lg" th:placeholder="Description" th:field="*{description}" />
+		     	<label  th:if="${#fields.hasErrors('description')}"  class="text-danger" th:errors="*{description}"></label> 
+		    </div>
+		 </div>
+		  <div class="row voffset1">
+		 	 <div class="col-lg-2">
+		     	<label  class = "labelfont" for="deliveryhours">Delivery Hours</label>
+		   	 </div>
+		  	<div class="col-lg-4">
+		  		<input class="form-control input-lg" th:placeholder="DeliveryHours" th:field="*{deliveryhours}" />
+		     	<label  th:if="${#fields.hasErrors('deliveryhours')}"  class="text-danger" th:errors="*{deliveryhours}"></label> 
+		    </div>
+		 </div>
+		 <div class="row btnOffset">
+		 	 <div class="col-lg-10" align="center" >
+		     	<input class="btn btn-primary  btn-lg" type="submit" name="save" value="   SAVE   "/>
+		     	<input class="btn btn-primary  btn-lg" type="submit" name="cancel" value="   CANCEL   "/>
+		   	 </div>		  	 
+		 </div>
+	</div>
+ </div>
+ </form>
+</body>
+</html>

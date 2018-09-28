@@ -2,7 +2,9 @@ package com.uDeli.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -345,6 +352,7 @@ public class UDeliController {
 
 		if (!file.isEmpty()) {
 			System.out.println("file data details==============="+file+"============"+name);
+			long excelCount=0;
 			try {
 				byte[] bytes = file.getBytes();
 
@@ -364,6 +372,36 @@ public class UDeliController {
 
 				System.out.println("Server File Location="
 						+ serverFile.getAbsolutePath());
+				
+				FileInputStream excelFile = new FileInputStream(new File(serverFile.getAbsolutePath()));
+		        Workbook workbook = new XSSFWorkbook(excelFile);
+		        Sheet datatypeSheet = workbook.getSheetAt(0);
+		        Iterator<Row> iterator = datatypeSheet.iterator();
+		        
+		        while (iterator.hasNext()) {
+
+		            Row currentRow = iterator.next();
+		            Iterator<Cell> cellIterator = currentRow.iterator();
+
+		            while (cellIterator.hasNext()) {
+
+		                Cell currentCell = cellIterator.next();
+		                //getCellTypeEnum shown as deprecated for version 3.15
+		                //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
+		               if (currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
+		                    System.out.print(currentCell.getStringCellValue() + "\t");
+		                } else if (currentCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+		                    System.out.print(currentCell.getNumericCellValue() + "\t");
+		                }else if(Cell.CELL_TYPE_BLANK==3){
+		                	System.out.print("\t");
+		                }else{
+		                	System.out.println();
+		                }
+		              
+
+		            }
+		            System.out.println();
+		        }
 
 				return "You successfully uploaded file=" + name;
 			} catch (Exception e) {

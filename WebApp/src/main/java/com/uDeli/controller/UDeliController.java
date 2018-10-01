@@ -8,10 +8,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -36,7 +32,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -49,8 +44,6 @@ import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
 import com.uDeli.model.OrderDetailsList;
 import com.uDeli.respository.UDeliRepository;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 
 @Controller
 @SessionAttributes("userName")
@@ -342,6 +335,7 @@ public class UDeliController {
 		System.out.println("value of fragile:" + orderDetailsList.get(0).getFragile());
 		orderdetails.setPreferreddeliverytime(orderDetailsList.get(0).getPreferreddeliverytime());
 		System.out.println("values  :" + orderDetailsList.get(0).getPreferreddeliverytime());
+		orderdetails.setStoretocustlocation(orderDetailsList.get(0).getStoretocustlocation());;
 		model.addAttribute("orderdetails", orderdetails);
 
 		return "addorders";
@@ -359,7 +353,7 @@ public class UDeliController {
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model,
-			OrderDetails orderdetails) throws IOException {
+			OrderDetails orderdetails, RedirectAttributes redirectAttributes) throws IOException {
 
 		String name = file.getOriginalFilename();
 		if (!file.isEmpty()) {
@@ -409,8 +403,11 @@ public class UDeliController {
 									System.out.println(currentCell.getDateCellValue() + "\t\t");
 									orderList.add(currentCell.getDateCellValue());
 								} else {
-									System.out.println((int) Math.abs(currentCell.getNumericCellValue()) + "\t\t");
-									orderList.add((int) Math.abs(currentCell.getNumericCellValue()));
+									Double value = currentCell.getNumericCellValue();
+				                    Long longValue = value.longValue();
+				                    String strCellValue = new String(longValue.toString());
+									System.out.println(strCellValue + "\t\t");
+									orderList.add(strCellValue);
 								}
 								break;
 							case Cell.CELL_TYPE_STRING:
@@ -460,15 +457,16 @@ public class UDeliController {
 					System.out.println("get recordes list==="+excelCount);
 					orderList = null;
 					System.out.println();
-					
 				}
 
 			} catch (Exception e) {
 				System.out.println("catch block details" + e.getMessage());
 			}
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploaded Successfully ");
 			viewOrders(model);
 			return "vieworders";
 		} else {
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploaded Successfully ");
 			viewOrders(model);
 			return "vieworders";
 		}

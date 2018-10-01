@@ -358,7 +358,7 @@ public class UDeliController {
 	}
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public @ResponseBody String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model,
+	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model,
 			OrderDetails orderdetails) throws IOException {
 
 		String name = file.getOriginalFilename();
@@ -460,15 +460,16 @@ public class UDeliController {
 					System.out.println("get recordes list==="+excelCount);
 					orderList = null;
 					System.out.println();
-
+					
 				}
 
-				return "vieworders";
 			} catch (Exception e) {
 				System.out.println("catch block details" + e.getMessage());
-				return "vieworders";
 			}
+			viewOrders(model);
+			return "vieworders";
 		} else {
+			viewOrders(model);
 			return "vieworders";
 		}
 	}

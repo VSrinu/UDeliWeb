@@ -4,6 +4,15 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +22,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -347,8 +357,7 @@ public class UDeliController {
 	
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public @ResponseBody
-	String uploadFileHandler(@RequestParam("name") String name,
-			@RequestParam("file") MultipartFile file) {
+	String uploadFileHandler(@RequestParam("name") String name, @RequestParam("file") MultipartFile file, Model model, OrderDetails orderdetails) throws IOException  {
 
 		if (!file.isEmpty()) {
 			System.out.println("file data details==============="+file+"============"+name);
@@ -373,38 +382,109 @@ public class UDeliController {
 				System.out.println("Server File Location="
 						+ serverFile.getAbsolutePath());
 				
-				FileInputStream excelFile = new FileInputStream(new File(serverFile.getAbsolutePath()));
-		        Workbook workbook = new XSSFWorkbook(excelFile);
-		        Sheet datatypeSheet = workbook.getSheetAt(0);
-		        Iterator<Row> iterator = datatypeSheet.iterator();
-		        
-		        while (iterator.hasNext()) {
+				
+				File file1 = new File(serverFile.getAbsolutePath());
+				System.out.println("get server file name in the file========"+file1);
+		            FileInputStream excelFile = new FileInputStream(new File(serverFile.getAbsolutePath()));
+		            Workbook workbook = new XSSFWorkbook(excelFile);
+		            Sheet datatypeSheet = workbook.getSheetAt(0);
+		            Iterator<Row> iterator = datatypeSheet.iterator();
+		            Cell currentCell = null;
+		            List orderList = null;
 
-		            Row currentRow = iterator.next();
-		            Iterator<Cell> cellIterator = currentRow.iterator();
+		            while (iterator.hasNext()) {
 
-		            while (cellIterator.hasNext()) {
-
-		                Cell currentCell = cellIterator.next();
-		                //getCellTypeEnum shown as deprecated for version 3.15
-		                //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
-		               if (currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
-		                    System.out.print(currentCell.getStringCellValue() + "\t");
-		                } else if (currentCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-		                    System.out.print(currentCell.getNumericCellValue() + "\t");
-		                }else if(Cell.CELL_TYPE_BLANK==3){
-		                	System.out.print("\t");
-		                }else{
-		                	System.out.println();
+		                Row currentRow = iterator.next();
+		                Iterator<Cell> cellIterator = currentRow.iterator();
+		                orderList = new ArrayList();
+		                while (cellIterator.hasNext()) {
+		                	currentCell = cellIterator.next();
+		                	if(excelCount!=0) {
+				                    //getCellTypeEnum shown as deprecated for version 3.15
+				                    //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
+		                		switch(currentCell.getCellType()) {
+								case Cell.CELL_TYPE_BOOLEAN:
+									System.out.print(currentCell.getBooleanCellValue() + "\t\t");
+									break;
+								case Cell.CELL_TYPE_NUMERIC:
+									 if (DateUtil.isCellDateFormatted(currentCell)) {
+					                        System.out.println(currentCell.getDateCellValue() + "\t\t");
+					                        orderList.add(currentCell.getDateCellValue());
+					               } else {
+					                        System.out.println((int)Math.abs(currentCell.getNumericCellValue()) + "\t\t");
+					                        orderList.add((int)Math.abs(currentCell.getNumericCellValue()));
+					                    }
+									break;
+								case Cell.CELL_TYPE_STRING:
+									System.out.print(currentCell.getStringCellValue() + "\t\t");
+									orderList.add(currentCell.getStringCellValue());
+									break;
+								 case Cell.CELL_TYPE_FORMULA:
+					                System.out.println(currentCell.getCellFormula() + "\t\t");
+					                break;
+					              case Cell.CELL_TYPE_BLANK:
+					                System.out.println();
+					                break;	
+							}
+				                  
+		                	}
+		                			
+		            	}
+		                System.out.println("Order list data"+orderList);
+		                System.out.println(excelCount);
+		                if(excelCount!=0) {
+		                		orderdetails.setOrdertitle(orderList.get(0).toString());
+		                		System.out.println("Order Details"+orderList.get(0).toString());
+		                		orderdetails.setOrderdetails(orderList.get(1).toString());
+		                		System.out.println("Order Details"+orderList.get(1).toString());
+		                		orderdetails.setCustomername(orderList.get(2).toString());
+		                		System.out.println("Order Details"+orderList.get(2).toString());
+		                		orderdetails.setAddress(orderList.get(3).toString());
+		                		System.out.println("Order Details"+orderList.get(3).toString());
+		                		orderdetails.setCity(orderList.get(4).toString());
+		                		System.out.println("Order Details"+orderList.get(4).toString());
+		                		orderdetails.setState(orderList.get(5).toString());
+		                		System.out.println("Order Details"+orderList.get(5).toString());
+		                		orderdetails.setZip(orderList.get(6).toString());
+		                		System.out.println("Order Details"+orderList.get(6).toString());
+		                		orderdetails.setPhonenumber(orderList.get(7).toString());
+		                		System.out.println("Order Details"+orderList.get(7).toString());
+		                		orderdetails.setEmail(orderList.get(8).toString());
+		                		System.out.println("Order Details"+orderList.get(8).toString());
+		                		orderdetails.setNumberofbags(Integer.parseInt(orderList.get(9).toString()));
+		                		System.out.println("Order Details"+Integer.parseInt(orderList.get(9).toString()));
+		                		orderdetails.setTotalitems(Integer.parseInt(orderList.get(10).toString()));
+		                		System.out.println("Order Details"+Integer.parseInt(orderList.get(10).toString()));
+		                		orderdetails.setTotalweight(Integer.parseInt(orderList.get(11).toString()));
+		                		System.out.println("Order Details"+Integer.parseInt(orderList.get(11).toString()));
+		                		orderdetails.setPerishable(Integer.parseInt(orderList.get(12).toString()));
+		                		System.out.println("Order Details"+Integer.parseInt(orderList.get(12).toString()));
+		                		orderdetails.setFragile(Integer.parseInt(orderList.get(13).toString()));
+		                		System.out.println("Order Details"+Integer.parseInt(orderList.get(13).toString()));
+		                		 String sDate = orderList.get(14).toString();
+		                		 
+		                		 String date = orderList.get(14).toString(); 
+		                		 System.out.println("Date details ========="+date);
+		                         DateFormat dateFormat = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");  
+		                         Date strDate = dateFormat.parse(date); 
+		                         long millis = strDate.getTime();
+		                         System.out.println("Converted String: " + strDate);  
+		                		 Timestamp ts = new Timestamp(millis);
+		                		orderdetails.setPreferreddeliverytime(ts);
+		                		orderdetails.setStoretocustlocation(10);
+		                		
+		                		System.out.println(orderdetails+"==========Start Add Orders details======================"+userDetailsList.get(0).getMerchantid());  
+		                		udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
 		                }
-		              
-
-		            }
-		            System.out.println();
-		        }
-
+		                excelCount++;
+		                orderList = null;
+		                System.out.println();
+		                
+		                }
+				
 				return "You successfully uploaded file=" + name;
 			} catch (Exception e) {
+				System.out.println("catch block details"+e.getMessage());
 				return "You failed to upload " + name + " => " + e.getMessage();
 			}
 		} else {
@@ -412,76 +492,5 @@ public class UDeliController {
 					+ " because the file was empty.";
 		}
 	}
-	
-	/* public String uploadExcel(@RequestParam MultipartFile file) throws IOException {
-    try {
-
-        FileInputStream excelFile = new FileInputStream(new File(file));
-        Workbook workbook = new XSSFWorkbook(excelFile);
-        Sheet datatypeSheet = workbook.getSheetAt(0);
-        Iterator<Row> iterator = datatypeSheet.iterator();
-
-        while (iterator.hasNext()) {
-
-            Row currentRow = iterator.next();
-            Iterator<Cell> cellIterator = currentRow.iterator();
-
-            while (cellIterator.hasNext()) {
-
-                Cell currentCell = cellIterator.next();
-                //getCellTypeEnum shown as deprecated for version 3.15
-                //getCellTypeEnum ill be renamed to getCellType starting from version 4.0
-               if (currentCell.getCellType() == Cell.CELL_TYPE_STRING) {
-                    System.out.print(currentCell.getStringCellValue() + "\t");
-                } else if (currentCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                    System.out.print(currentCell.getNumericCellValue() + "\t");
-                }else if(Cell.CELL_TYPE_BLANK==3){
-                	System.out.print("\t");
-                }else{
-                	System.out.println();
-                }
-              
-
-            }
-            System.out.println();
-
-        }
-    } catch (FileNotFoundException e) {
-        e.printStackTrace();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-	 }*/
-
-	
-	
-	
-	/*@RequestMapping(value = "/import")
-	public void uploadFile(@RequestPart(value = "file") MultipartFile multiPartFile) throws IOException {
-		
-		System.out.println("Read data from the CSV file");
-	}
-	*/
-	/* @Value("${upload.path}")
-	    private String path;
-	 	private static final String SAVE_DIR = "uploadFiles";
-     
-	 	
-	 	
-	 @RequestMapping(value = "/doUpload", method = RequestMethod.POST)
-	    public void upload(@RequestParam MultipartFile uploadfile, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		 	System.out.println("======================file uploaded===================");
-		 	String appPath = request.getServletContext().getRealPath("");
-		 	System.out.println("file name"+appPath);
-		 	String savePath = appPath + File.separator + SAVE_DIR;
-		 	System.out.println("file name"+savePath);
-		 	File fileSaveDir = new File(savePath);
-		 	System.out.println("file name"+fileSaveDir);
-	        if (!fileSaveDir.exists()) {
-	            fileSaveDir.mkdir();
-	        }
-	         
-	        
-	 }*/
-	 
+		 
 }

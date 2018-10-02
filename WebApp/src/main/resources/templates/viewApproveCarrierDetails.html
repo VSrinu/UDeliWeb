@@ -1,50 +1,130 @@
-<!DOCTYPE html> 
-<html xmlns:th="http://www.thymeleaf.org"> 
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
- 	<th:block th:include="merchantmenu"></th:block> 
+<th:block th:include="merchantmenu"></th:block>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+	function myFunction() {
+		var input, filter, table, tr, td, i;
+		input = document.getElementById("approveCarriers");
+		filter = input.value.toUpperCase();
+		table = document.getElementById("approveTable");
+		tr = table.getElementsByTagName("tr");
+		for (i = 0; i < tr.length; i++) {
+			td = tr[i].getElementsByTagName("td")[1];
+			if (td) {
+				if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				} else {
+					tr[i].style.display = "none";
+				}
+			}
+		}
+	}
+
+	function sortTable(n) {
+		var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+		table = document.getElementById("approveTable");
+		switching = true;
+		dir = "asc";
+		while (switching) {
+			switching = false;
+			rows = table.rows;
+			for (i = 1; i < (rows.length - 1); i++) {
+				shouldSwitch = false;
+				x = rows[i].getElementsByTagName("TD")[n];
+				y = rows[i + 1].getElementsByTagName("TD")[n];
+				if (dir == "asc") {
+					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+						shouldSwitch = true;
+						break;
+					}
+				} else if (dir == "desc") {
+					if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+						shouldSwitch = true;
+						break;
+					}
+				}
+			}
+			if (shouldSwitch) {
+				rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+				switching = true;
+				switchcount++;
+			} else {
+				if (switchcount == 0 && dir == "asc") {
+					dir = "desc";
+					switching = true;
+				}
+			}
+		}
+	}
+</script>
 </head>
-<body>	
-<form method="post" th:object="${CarrierDetails}">
+<body>
+	<form method="post" th:object="${ApproveCarrierDetails}">
+		<div>
+			<label th:if="${SUCCESS_MESSAGE != null}" class="text-success"
+				th:text="${SUCCESS_MESSAGE}"> </label>
+		</div>
 
-  <label th:if="${SUCCESS_MESSAGE != null}" class="text-success" th:text="${SUCCESS_MESSAGE}"> </label>
- </div>
+		<div id="wrapper" class="animate">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="panel panel-default">
+						<div class="col">
+							<div class="card">
+								<div class="card-body panel-heading">
 
-<div id="wrapper" class="animate">
-    <div class="container-fluid">
-      <div class="row">
-      <div class="panel panel-default">
-        <div class="col">
-          <div class="card">
-            <div class="card-body panel-heading">
-			<h4 class="card-title">Approved Carrier Details List</h4>
-				<table class="table full-color-table full-inverse-table table-striped table-hover">
-					<thead>
-						<tr>
-							<td class="labelfont" scope="col"> Name</td>
-							<td class="labelfont" scope="col"> Address</td>
-							<td class="labelfont" scope="col"> EmailId</td>
-							<td class="labelfont" scope="col"> Phonenumber</td>
-							<td class="labelfont" scope="col"></td>
-						</tr>
-					</thead>
-					<tbody>			
-	 					<tr th:each="carriersList, rowStat: ${carriersList}">
-	 					<td class="txtfont" th:text="${carriersList.name}"></td>
-	 					<td class="txtfont" th:text="${carriersList.address}"></td>
-	        			<td class="txtfont" th:text="${carriersList.emailid}"></td>
-						<td class="txtfont" th:text="${carriersList.phonenumber}"></td>
-						<td class="txtfont" > <a th:href="@{'/denyapprovedcarrier?carrierid='+ ${carriersList.carrierid} + '&active='+ ${0}}"> Deny </a></td>
-    				</tr>
-    				</tbody>
-				</table>
-			 </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</form>
+									<div class="col-lg-12">
+										<div class="col-lg-8" align="left">
+											<h4 class="card-title">Approved Carrier Details List</h4>
+										</div>
+										<div class="col-lg-4">
+											<input class="form-control" id="approveCarriers" type="text"
+												onkeyup="myFunction()"
+												placeholder="Search with customer name...">
+										</div>
+									</div>
+									<table
+										class="table full-color-table full-inverse-table table-striped table-hover" id="approveTable">
+										<thead>
+											<tr>
+												<th class="labelfont" scope="col" onclick="sortTable(0)">Name</th>
+												<th class="labelfont" scope="col" onclick="sortTable(1)">Address</th>
+												<th class="labelfont" scope="col" onclick="sortTable(4)">EmailId</th>
+												<th class="labelfont" scope="col" onclick="sortTable(3)">Phone
+													Number</th>
+												<th class="labelfont" scope="col" onclick="sortTable(5)"></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="carriersList, rowStat: ${carriersList}">
+												<td class="txtfont" th:text="${carriersList.name}"></td>
+												<td class="txtfont" th:text="${carriersList.address}"></td>
+												<td class="txtfont" th:text="${carriersList.emailid}"></td>
+												<td class="txtfont" th:text="${carriersList.phonenumber}"></td>
+												<td class="txtfont"><a
+													th:href="@{'/denyapprovedcarrier?carrierid='+ ${carriersList.carrierid} + '&active='+ ${0}}">
+														Deny </a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+	</form>
 </body>
 </html>

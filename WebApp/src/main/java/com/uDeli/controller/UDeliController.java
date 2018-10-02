@@ -211,6 +211,20 @@ public class UDeliController {
 		return "viewCarrierDetails";
 	}
 
+	@RequestMapping("/viewApproveCarrierDetails")
+	public String approveCarrier(Model model) {
+		carriersList = udeliRepo.getApproveCarriers(userDetailsList.get(0).getMerchantid());
+		model.addAttribute("carriersList", carriersList);
+		return "viewApproveCarrierDetails";
+	}
+	
+	@RequestMapping("/viewDenyCarrierDetails")
+	public String denyCarrier(Model model) {
+		carriersList = udeliRepo.getDenyCarriers(userDetailsList.get(0).getMerchantid());
+		model.addAttribute("carriersList", carriersList);
+		return "viewDenyCarrierDetails";
+	}
+	
 	@RequestMapping(value = { "/approvecarrier", "/denycarrier" }, method = RequestMethod.GET)
 	public ModelAndView requestCarrier(HttpServletRequest request, CarrierDetails carrierDetails) {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
@@ -219,19 +233,6 @@ public class UDeliController {
 		return new ModelAndView("redirect:/viewCarrierDetails");
 	}
 
-	@RequestMapping("/viewApproveCarrierDetails")
-	public String approveCarrier(Model model) {
-		carriersList = udeliRepo.getApproveCarriers(userDetailsList.get(0).getMerchantid());
-		model.addAttribute("carriersList", carriersList);
-		return "viewApproveCarrierDetails";
-	}
-
-	@RequestMapping("/viewDenyCarrierDetails")
-	public String denyCarrier(Model model) {
-		carriersList = udeliRepo.getDenyCarriers(userDetailsList.get(0).getMerchantid());
-		model.addAttribute("carriersList", carriersList);
-		return "viewDenyCarrierDetails";
-	}
 
 	@RequestMapping(value = { "/denyapprovedcarrier" }, method = RequestMethod.GET)
 	public ModelAndView approveCarrier(HttpServletRequest request, CarrierDetails carrierDetails) {

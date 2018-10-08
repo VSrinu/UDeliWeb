@@ -19,7 +19,7 @@ public interface UDeliRepositoryCustom{
 
 	public List<MerchantDetails> editMerchantDetails(Integer merchantId);
 
-	void deleteMerchantDetails(Integer merchantId);
+	public void deleteMerchantDetails(Integer merchantId);
 	
 	public List<CarrierDetails> getCarriers(int mid);
 
@@ -44,6 +44,8 @@ public interface UDeliRepositoryCustom{
 	public void approveCarrier(CarrierDetails carrierDetails, int carrierid, int active);
 	
 	public void denyCarrier(CarrierDetails carrierDetails, int carrierid, int active);
+
+	public void distanceCalculation(Integer orderid);
 
 
 	

@@ -12,7 +12,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tOrders") 
 @NamedStoredProcedureQueries({
-	@NamedStoredProcedureQuery(name = "getneworders",procedureName = "pgetneworders",resultClasses = NewOrderDetailsList.class)
+	@NamedStoredProcedureQuery(name = "getneworders",procedureName = "pgetneworders",resultClasses = NewOrderDetailsList.class),
+	@NamedStoredProcedureQuery(name = "distanceMatrix",procedureName = "pDistanceMatrix",resultClasses = NewOrderDetailsList.class)
 })
 
 public class NewOrderDetailsList {

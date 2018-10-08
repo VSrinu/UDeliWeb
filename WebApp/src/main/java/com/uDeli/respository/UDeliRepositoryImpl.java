@@ -334,4 +334,18 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		boolean s = spQuery.execute();
 	}	
 	
+	@Override
+	public void distanceCalculation(Integer orderid) {
+		
+		   spQuery = em.createNamedStoredProcedureQuery("distanceMatrix");
+		   
+		   System.out.println(orderid+"==========after the procedure in distanceCalculation======================");
+		   spQuery.registerStoredProcedureParameter(0, Integer.class, ParameterMode.IN);
+		   spQuery.setParameter(0,orderid);
+		   boolean d = spQuery.execute();
+		   
+		   
+	 
+	}
+	
 	}

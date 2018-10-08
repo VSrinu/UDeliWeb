@@ -13,11 +13,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
@@ -300,7 +302,7 @@ public class UDeliController {
 			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Record inserted Successfully ");
 		} else {
 			udeliRepo.insertOrderDetails(orderdetails, "update", userDetailsList.get(0).getMerchantid());
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Record inserted Successfully ");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Record updated Successfully ");
 		}
 
 		System.out.println("==========End Add Orders details======================");
@@ -444,10 +446,14 @@ public class UDeliController {
 						orderdetails.setPerishable(Integer.parseInt(orderList.get(12).toString()));
 						orderdetails.setFragile(Integer.parseInt(orderList.get(13).toString()));
 						String sDate = orderList.get(14).toString();
-						String date = orderList.get(14).toString();
-						DateFormat dateFormat = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
-						Date strDate = dateFormat.parse(date);
-						long millis = strDate.getTime();
+						//String date = orderList.get(14).toString();
+						/*String[] acceptedFormats = {"dd/MM/yyyy","dd/MM/yyyy HH:mm","dd/MM/yyyy HH:mm:ss","E MMM dd HH:mm:ss z yyyy"};
+						DateFormat dateFormat = new SimpleDateFormat(acceptedFormats.clone());
+						dateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
+						Date strDate = dateFormat.parse(date);*/
+						String[] acceptedFormats = {"dd/MM/yyyy","dd/MM/yyyy HH:mm","dd/MM/yyyy HH:mm:ss","E MMM dd HH:mm:ss z yyyy"};
+						Date date1 = DateUtils.parseDate(sDate, acceptedFormats);
+						long millis = date1.getTime();
 						Timestamp ts = new Timestamp(millis);
 						orderdetails.setPreferreddeliverytime(ts);
 						orderdetails.setStoretocustlocation(10);

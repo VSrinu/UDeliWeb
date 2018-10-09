@@ -357,7 +357,7 @@ public class UDeliController {
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model,
 			OrderDetails orderdetails, RedirectAttributes redirectAttributes) throws IOException {
-
+        
 		String name = file.getOriginalFilename();
 		if (!file.isEmpty()) {
 			System.out.println("file data details===========================" + name);
@@ -465,16 +465,20 @@ public class UDeliController {
 					orderList = null;
 					System.out.println();
 				}
+				
 
 			} catch (Exception e) {
 				System.out.println("catch block details" + e.getMessage());
+				
 			}
 			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploaded Successfully ");
 			viewOrders(model);
+			
 			return "vieworders";
 		} else {
 			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploaded Successfully ");
 			viewOrders(model);
+			
 			return "vieworders";
 		}
 	}

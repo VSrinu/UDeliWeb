@@ -4,21 +4,18 @@
 <th:block th:include="merchantmenu"></th:block>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 <script type="text/javascript" src="js/pagination.js"></script>
-<link href="http://www.jqueryscript.net/css/jquerysctipttop.css"
-	rel="stylesheet" type="text/css">
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+
+	
 <style>
 body {
 	background-color: #f7f7f7;
@@ -29,7 +26,7 @@ h1 {
 	text-align: center;
 }
 </style>
-<script>
+<!-- <script>
 	function myFunction() {
 		var input, filter, table, tr, td, i;
 		input = document.getElementById("newOrders");
@@ -114,6 +111,11 @@ h1 {
 		var s = document.getElementsByTagName('script')[0];
 		s.parentNode.insertBefore(ga, s);
 	})();
+</script> -->
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
 </script>
 </head>
 <body>
@@ -159,20 +161,11 @@ h1 {
 								<div class="card">
 									<div class="card-body panel-heading">
 
-										<div class="col-lg-12">
-											<div class="col-lg-8" align="left">
-												<h4 class="card-title">New Orders List</h4>
-											</div>
-											<div class="col-lg-4">
-												<input class="form-control" id="newOrders" type="text"
-													onkeyup="myFunction()"
-													placeholder="Search with customer name...">
-											</div>
+										<div class="col-lg-12" align="center">
+											<h4 class="card-title">New Orders List</h4>
 										</div>
 										<div styles="height:180px">
-											<table
-												class="table full-color-table full-inverse-table table-striped table-hover"
-												id="newTable">
+											<table id="myTable" class="table table-striped">
 												<thead>
 													<tr>
 														<th class="labelfont" scope="col" onclick="sortTable(0)">Order
@@ -191,7 +184,7 @@ h1 {
 														<th class="labelfont" scope="col"></th>
 													</tr>
 												</thead>
-												<tbody id="myTable">
+												<tbody>
 													<tr th:each="newOrdersList, rowStat: ${newOrdersList}">
 														<td class="txtfont" th:text="${newOrdersList.ordertitle}"></td>
 														<td class="txtfont"
@@ -202,9 +195,9 @@ h1 {
 														<td class="txtfont"
 															th:text="${newOrdersList.numberofbags}"></td>
 														<td class="txtfont" th:text="${newOrdersList.totalweight}"></td>
-<!-- 														<td class="txtfont"
+														<td class="txtfont"
 															th:text="${newOrdersList.storetocustlocation}"></td>
- -->														<td class="txtfont"><a
+														<td class="txtfont"><a
 															th:href="@{'/editorders?orderid='+ ${newOrdersList.orderid}}">
 																Edit </a> /<a
 															th:href="@{'/deleteorder?orderid='+ ${newOrdersList.orderid}}">
@@ -212,9 +205,6 @@ h1 {
 													</tr>
 												</tbody>
 											</table>
-										</div>
-										<div class="col-md-12 text-center">
-											<ul class="pagination pagination-lg pager" id="myPager"></ul>
 										</div>
 									</div>
 								</div>

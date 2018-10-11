@@ -6,17 +6,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.JOptionPane;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -219,14 +217,14 @@ public class UDeliController {
 		model.addAttribute("carriersList", carriersList);
 		return "viewApproveCarrierDetails";
 	}
-	
+
 	@RequestMapping("/viewDenyCarrierDetails")
 	public String denyCarrier(Model model) {
 		carriersList = udeliRepo.getDenyCarriers(userDetailsList.get(0).getMerchantid());
 		model.addAttribute("carriersList", carriersList);
 		return "viewDenyCarrierDetails";
 	}
-	
+
 	@RequestMapping(value = { "/approvecarrier", "/denycarrier" }, method = RequestMethod.GET)
 	public ModelAndView requestCarrier(HttpServletRequest request, CarrierDetails carrierDetails) {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
@@ -234,7 +232,6 @@ public class UDeliController {
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
 		return new ModelAndView("redirect:/viewCarrierDetails");
 	}
-
 
 	@RequestMapping(value = { "/denyapprovedcarrier" }, method = RequestMethod.GET)
 	public ModelAndView approveCarrier(HttpServletRequest request, CarrierDetails carrierDetails) {
@@ -338,7 +335,8 @@ public class UDeliController {
 		System.out.println("value of fragile:" + orderDetailsList.get(0).getFragile());
 		orderdetails.setPreferreddeliverytime(orderDetailsList.get(0).getPreferreddeliverytime());
 		System.out.println("values  :" + orderDetailsList.get(0).getPreferreddeliverytime());
-		orderdetails.setStoretocustlocation(orderDetailsList.get(0).getStoretocustlocation());;
+		orderdetails.setStoretocustlocation(orderDetailsList.get(0).getStoretocustlocation());
+		;
 		model.addAttribute("orderdetails", orderdetails);
 
 		return "addorders";
@@ -355,11 +353,18 @@ public class UDeliController {
 	}
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
-	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model,
-			OrderDetails orderdetails, RedirectAttributes redirectAttributes) throws IOException {
-        
+	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model, OrderDetails orderdetails,
+			RedirectAttributes redirectAttributes) throws IOException {
+
 		String name = file.getOriginalFilename();
-		if (!file.isEmpty()) {
+		String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
+
+		String excel = "xlsx";
+		if (!extension.equals(excel)) {
+			viewOrders(model);
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "Please select .xlsx file to upload");
+			return "redirect:/vieworders";
+		}else if (!file.isEmpty()) {
 			System.out.println("file data details===========================" + name);
 			long excelCount = 0;
 			try {
@@ -407,8 +412,8 @@ public class UDeliController {
 									orderList.add(currentCell.getDateCellValue());
 								} else {
 									Double value = currentCell.getNumericCellValue();
-				                    Long longValue = value.longValue();
-				                    String strCellValue = new String(longValue.toString());
+									Long longValue = value.longValue();
+									String strCellValue = new String(longValue.toString());
 									System.out.println(strCellValue + "\t\t");
 									orderList.add(strCellValue);
 								}
@@ -428,9 +433,9 @@ public class UDeliController {
 						}
 
 					}
-					
+
 					System.out.println(excelCount);
-					if(excelCount!=0) {
+					if (excelCount != 0) {
 						orderdetails.setOrdertitle(orderList.get(0).toString());
 						orderdetails.setOrderdetails(orderList.get(1).toString());
 						orderdetails.setCustomername(orderList.get(2).toString());
@@ -446,40 +451,33 @@ public class UDeliController {
 						orderdetails.setPerishable(Integer.parseInt(orderList.get(12).toString()));
 						orderdetails.setFragile(Integer.parseInt(orderList.get(13).toString()));
 						String sDate = orderList.get(14).toString();
-						//String date = orderList.get(14).toString();
-						/*String[] acceptedFormats = {"dd/MM/yyyy","dd/MM/yyyy HH:mm","dd/MM/yyyy HH:mm:ss","E MMM dd HH:mm:ss z yyyy"};
-						DateFormat dateFormat = new SimpleDateFormat(acceptedFormats.clone());
-						dateFormat.setTimeZone(TimeZone.getTimeZone("IST"));
-						Date strDate = dateFormat.parse(date);*/
-						String[] acceptedFormats = {"dd/MM/yyyy","dd/MM/yyyy HH:mm","dd/MM/yyyy HH:mm:ss","E MMM dd HH:mm:ss z yyyy"};
+						String[] acceptedFormats = { "dd/MM/yyyy", "dd/MM/yyyy HH:mm", "dd/MM/yyyy HH:mm:ss",
+								"E MMM dd HH:mm:ss z yyyy" };
 						Date date1 = DateUtils.parseDate(sDate, acceptedFormats);
 						long millis = date1.getTime();
 						Timestamp ts = new Timestamp(millis);
 						orderdetails.setPreferreddeliverytime(ts);
 						orderdetails.setStoretocustlocation(10);
-						System.out.println("Order List Details======="+orderList);
+						System.out.println("Order List Details=======" + orderList);
 						udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
 					}
 					excelCount++;
-					System.out.println("get recordes list==="+excelCount);
+					System.out.println("get recordes list===" + excelCount);
 					orderList = null;
 					System.out.println();
 				}
-				
 
 			} catch (Exception e) {
 				System.out.println("catch block details" + e.getMessage());
-				
+
 			}
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploaded Successfully ");
 			viewOrders(model);
-			
-			return "vieworders";
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", excelCount + " Records Uploaded Successfully ");
+			return "redirect:/vieworders";
 		} else {
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploaded Successfully ");
 			viewOrders(model);
-			
-			return "vieworders";
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploadinf fail");
+			return "redirect:/vieworders";
 		}
 	}
 

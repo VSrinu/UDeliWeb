@@ -25,6 +25,10 @@ h1 {
 	margin: 150px auto;
 	text-align: center;
 }
+.header {
+    background-color: lightgray;
+        margin-bottom: 1%;
+}
 </style>
 <!-- <script>
 	function myFunction() {
@@ -121,11 +125,18 @@ function uploadFile(){
 	
 	$(".loadingimg").show();
 }
+
+$(document).ready(function(){
+	setTimeout(function() {
+	    $('#successMessage').fadeOut('fast');
+	}, 3000);
+});
+
 </script>
 </head>
 <body>
 <div class="loadingimg"></div>
-	<div class="col-lg-12">
+	<div class="col-lg-12" style="padding-bottom: 1%">
 		<div class="col-lg-6">
 			<form class="form-inline" method="post" id="fileUploadForm">
 				<a th:href="@{'/addorders'}" class="btn btn-primary  btn-sm"
@@ -136,15 +147,11 @@ function uploadFile(){
 		<div class="col-lg-6">
 			<form class=" form-group form-inline" method="POST"
 				action="uploadFile" enctype="multipart/form-data">
-				<div>
-					<label th:if="${SUCCESS_MESSAGE != null}" class="text-success"
-						th:text="${SUCCESS_MESSAGE}"> </label>
-				</div>
 				<div class="col-lg-6" align="right">
 					<h4>File to upload:</h4>
 				</div>
 				<div class="col-lg-4" align="left" style="margin-top: 1%">
-					<input type="file" name="file">
+					<input type="file" name="file" >
 				</div>
 				<div class="col-lg-2" align="left" style="margin-top: 1%">
 					<input class="btn btn-primary  btn-sm" type="submit" onclick="uploadFile(this)" value="Upload">
@@ -156,7 +163,7 @@ function uploadFile(){
 	</div>
 	<form method="post" th:object="${NewOrderDetails}">
 		<div class="container-fluid">
-			<div>
+			<div id="successMessage">
 				<label th:if="${SUCCESS_MESSAGE != null}" class="text-success"
 					th:text="${SUCCESS_MESSAGE}"> </label>
 			</div>
@@ -168,7 +175,7 @@ function uploadFile(){
 								<div class="card">
 									<div class="card-body panel-heading">
 
-										<div class="col-lg-12" align="center">
+										<div class="col-lg-12 header">
 											<h4 class="card-title">New Orders List</h4>
 										</div>
 										<div styles="height:100%">
@@ -187,7 +194,7 @@ function uploadFile(){
 															Of Bags</th>
 														<th class="labelfont" scope="col" onclick="sortTable(6)">Total
 															Weight</th>
-														<th class="labelfont" scope="col" onclick="sortTable(7)">Distance</th>
+														<!-- <th class="labelfont" scope="col" onclick="sortTable(7)">Distance</th> -->
 														<th class="labelfont" scope="col"></th>
 													</tr>
 												</thead>
@@ -202,8 +209,8 @@ function uploadFile(){
 														<td class="txtfont"
 															th:text="${newOrdersList.numberofbags}"></td>
 														<td class="txtfont" th:text="${newOrdersList.totalweight}"></td>
-														<td class="txtfont"
-															th:text="${newOrdersList.storetocustlocation}"></td>
+														<!-- <td class="txtfont"
+															th:text="${newOrdersList.storetocustlocation}"></td> -->
 														<td class="txtfont"><a
 															th:href="@{'/editorders?orderid='+ ${newOrdersList.orderid}}">
 																Edit </a> /<a

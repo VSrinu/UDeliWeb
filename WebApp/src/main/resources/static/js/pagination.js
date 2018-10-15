@@ -104,3 +104,144 @@ $.fn.pageMe = function(opts){
 
     }
 };
+
+
+function NewOrdrs()                                    
+{ 
+    var ordertitle = document.forms["OrderForm"]["ordertitle"];               
+    var orderdetails = document.forms["OrderForm"]["orderdetails"];    
+    var name = document.forms["OrderForm"]["name"];  
+    var phonenumber =  document.forms["OrderForm"]["phonenumber"];  
+    var email = document.forms["OrderForm"]["email"];  
+    var address = document.forms["OrderForm"]["address"]; 
+    var city = document.forms["OrderForm"]["city"];               
+    var state = document.forms["OrderForm"]["state"];    
+    var zip = document.forms["OrderForm"]["zip"];  
+    var bags =  document.forms["OrderForm"]["bags"];  
+    var items = document.forms["OrderForm"]["items"];  
+    var weight = document.forms["OrderForm"]["weight"];  
+    var perishable = document.forms["OrderForm"]["perishable"];               
+    var fragile = document.forms["OrderForm"]["fragile"];    
+    var deliverytimes = document.forms["OrderForm"]["deliverytimes"];  
+   
+    if (ordertitle.value == "")                                  
+    { 
+        window.alert("Please enter ordertitle."); 
+        ordertitle.focus(); 
+        return false; 
+    } 
+   
+    if (orderdetails.value == "")                               
+    { 
+        window.alert("Please enter orderdetails."); 
+        orderdetails.focus(); 
+        return false; 
+    } 
+    
+    if (name.value == "")                               
+    { 
+        window.alert("Please enter Customer Name."); 
+        name.focus(); 
+        return false; 
+    } 
+       
+    if (email.value == "")                                   
+    { 
+        window.alert("Please enter a valid e-mail address."); 
+        email.focus(); 
+        return false; 
+    } 
+   
+    if (email.value.indexOf("@", 0) < 0)                 
+    { 
+        window.alert("Please enter a valid e-mail address."); 
+        email.focus(); 
+        return false; 
+    } 
+   
+    if (email.value.indexOf(".", 0) < 0)                 
+    { 
+        window.alert("Please enter a valid e-mail address."); 
+        email.focus(); 
+        return false; 
+    } 
+   
+    if (phonenumber.value == "")                           
+    { 
+        window.alert("Please enter phonenumber."); 
+        phonenumber.focus(); 
+        return false; 
+    } 
+   
+    if (address.value == "")                        
+    { 
+        window.alert("Please enter address"); 
+        address.focus(); 
+        return flase; 
+    } 
+    
+    if (city.value == "")                        
+    { 
+        window.alert("Please enter city"); 
+        city.focus(); 
+        return flase; 
+    }
+    
+    if (state.value == "")                        
+    { 
+        window.alert("Please enter state"); 
+        state.focus(); 
+        return flase; 
+    }
+
+    if (zip.value == "")                           
+    { 
+        window.alert("Please enter zip."); 
+        zip.focus(); 
+        return false; 
+    } 
+   
+    if (bags.value == "")                        
+    { 
+        window.alert("Please enter Number of bags"); 
+        bags.focus(); 
+        return flase; 
+    } 
+    
+    if (items.value == "")                        
+    { 
+        window.alert("Please enter Number of Items"); 
+        items.focus(); 
+        return flase; 
+    }
+    
+    if (weight.value == "")                        
+    { 
+        window.alert("Please enter total weight"); 
+        weight.focus(); 
+        return flase; 
+    }
+   
+    if (perishable.selectedIndex < 1)                  
+    { 
+        alert("Please select perishable."); 
+        perishable.focus(); 
+        return false; 
+    } 
+    
+    if (fragile.selectedIndex < 1)                  
+    { 
+        alert("Please select fragile."); 
+        fragile.focus(); 
+        return false; 
+    } 
+    
+    if (deliverytimes.value == "")                        
+    { 
+        window.alert("Please enter delivery date and times"); 
+        deliverytimes.focus(); 
+        return flase; 
+    }
+   
+    return true; 
+}

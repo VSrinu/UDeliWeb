@@ -296,10 +296,10 @@ public class UDeliController {
 			redirectTo = "addorders";
 		} else if (orderdetails.getOrderid() == null) {
 			udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Record inserted Successfully");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Order inserted Successfully");
 		} else {
 			udeliRepo.insertOrderDetails(orderdetails, "update", userDetailsList.get(0).getMerchantid());
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Record updated Successfully");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Order updated Successfully");
 		}
 
 		System.out.println("==========End Add Orders details======================");
@@ -472,11 +472,11 @@ public class UDeliController {
 
 			}
 			viewOrders(model);
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", excelCount + " Records Uploaded Successfully ");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", excelCount + " Orders Uploaded Successfully ");
 			return "redirect:/vieworders";
 		} else {
 			viewOrders(model);
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Records Uploadinf fail");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Orders Uploading fail");
 			return "redirect:/vieworders";
 		}
 	}

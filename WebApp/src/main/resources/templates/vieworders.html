@@ -136,6 +136,10 @@ function uploadFile(){
 		<div class="col-lg-6">
 			<form class=" form-group form-inline" method="POST"
 				action="uploadFile" enctype="multipart/form-data">
+				<div>
+					<label th:if="${SUCCESS_MESSAGE != null}" class="text-success"
+						th:text="${SUCCESS_MESSAGE}"> </label>
+				</div>
 				<div class="col-lg-6" align="right">
 					<h4>File to upload:</h4>
 				</div>

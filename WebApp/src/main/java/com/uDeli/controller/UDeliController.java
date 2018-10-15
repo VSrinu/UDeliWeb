@@ -296,10 +296,10 @@ public class UDeliController {
 			redirectTo = "addorders";
 		} else if (orderdetails.getOrderid() == null) {
 			udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Record inserted Successfully ");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Record inserted Successfully");
 		} else {
 			udeliRepo.insertOrderDetails(orderdetails, "update", userDetailsList.get(0).getMerchantid());
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Record updated Successfully ");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Record updated Successfully");
 		}
 
 		System.out.println("==========End Add Orders details======================");

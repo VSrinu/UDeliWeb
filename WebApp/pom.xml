@@ -6,7 +6,7 @@
 
 	<groupId>com.uDeli</groupId>
 	<artifactId>UDeliWebApp</artifactId>
-	<version>18.1.11</version>
+	<version>18.1.12</version>
 	<packaging>jar</packaging>
 
 	<name>UDeliWebApp</name>

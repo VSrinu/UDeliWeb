@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tOrders") 
@@ -23,27 +24,49 @@ public class NewOrderDetailsList {
 		@Id
 		private Integer orderid;
 		
+		@NotBlank(message="Ordertitle cannot be blank")
 		@Column(name="ordertitle")
 		private String ordertitle;
 		
+		@NotBlank(message="Customername cannot be blank")
 		@Column(name="customername")
 		private String customername;
 		
+		@NotBlank(message="Address cannot be blank")
 		private String Address;
+		
+		@NotBlank(message="Phone Number cannot be blank")
 	    private String phonenumber;
+		
+		@NotBlank(message="email cannot be blank")
 	    private String email;
+		
+		@NotBlank(message="Numberofbags cannot be blank")
 	    private Integer numberofbags;
+		
+		@NotBlank(message="Totalitems cannot be blank")
 	    private Integer totalitems;
+		
+		@NotBlank(message="Address cannot be blank")
 	    private Integer perishable;
-	    private Integer totalweight;
+		
+		@NotBlank(message="Totalweight cannot be blank")
+	    private Float totalweight;
+		
+		@NotBlank(message="Address cannot be blank")
 	    private Integer fragile;
+		
+		@NotBlank(message="Preferreddeliverytime cannot be blank")
 	    private Timestamp preferreddeliverytime; 
+		
 	    private Integer status;
-	    private Integer storetocustlocation;
+		
+		@NotBlank(message="Storetocustlocation cannot be blank")
+	    private Float storetocustlocation;
 	    
 	    public NewOrderDetailsList(Integer orderid, String ordertitle, String customername, String Address, String phonenumber, String email, Integer numberofbags,
-	    				Integer totalitems, Integer perishable, Integer totalweight, Integer fragile, Timestamp preferreddeliverytime, Integer status,
-	     Integer storetocustlocation) {
+	    				Integer totalitems, Integer perishable, Float totalweight, Integer fragile, Timestamp preferreddeliverytime, Integer status,
+	    				Float storetocustlocation) {
 			super();
 			this.orderid = orderid;
 			this.ordertitle = ordertitle;
@@ -134,11 +157,11 @@ public class NewOrderDetailsList {
 			this.perishable = perishable;
 		}
 
-		public Integer getTotalweight() {
+		public Float getTotalweight() {
 			return totalweight;
 		}
 
-		public void setTotalweight(Integer totalweight) {
+		public void setTotalweight(Float totalweight) {
 			this.totalweight = totalweight;
 		}
 
@@ -166,11 +189,11 @@ public class NewOrderDetailsList {
 			this.status = status;
 		}
 
-		public Integer getStoretocustlocation() {
+		public Float getStoretocustlocation() {
 			return storetocustlocation;
 		}
 
-		public void setStoretocustlocation(Integer storetocustlocation) {
+		public void setStoretocustlocation(Float storetocustlocation) {
 			this.storetocustlocation = storetocustlocation;
 		}
 

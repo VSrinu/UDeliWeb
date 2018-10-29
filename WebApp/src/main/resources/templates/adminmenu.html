@@ -4,33 +4,25 @@
 </head>  
 <body>
 <nav class="navbar navbar-custom">
-    <div class="jumbotron ">
-   		 <h1>uDeli</h1>  
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span> 
-            </button> 
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#" th:href="@{/}">Home</a>
-                </li> 
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-            	<li >
-                    <a>
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"></h1></span>
-                        <label th:text="${userName}"></label>
-                    </a>
+    <div class="navbar-collapse collapse ">
+   			<ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a href="#" th:href="@{/viewmerchant}"><h4>uDeli</h4></a>
                 </li>
-                <li >
-                    <a th:href="@{/logout}">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
-                    </a>
-                </li>
+ 				  <li class="nav-item">
+ 				  	<a th:href="@{/addmerchant}" href="#"><h4>ADD Merchant</h4></a>
+        	     </li>
+        	</ul>
+        	<ul class="nav navbar-nav navbar-right">
+           			 <li class="nav-item"><a>
+                       <h4> <span class="glyphicon glyphicon-user" aria-hidden="true"></span><label th:text="${userName}"></label></h4></a>
+            	    </li>
+                	<li class="nav-item">
+                    	<a th:href="@{/logout}">
+                        <h4><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout</h4>
+                    	</a>
+                	</li>
             </ul>
-        </div>
         <!--/.nav-collapse -->
     </div>
 </nav>

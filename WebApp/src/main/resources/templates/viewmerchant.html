@@ -2,8 +2,111 @@
 <html xmlns:th="http://www.thymeleaf.org"> 
 <head>
  	<th:block th:include="adminmenu"></th:block> 
+ 	<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+<script type="text/javascript" src="js/pagination.js"></script>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
+
+	
+<style>
+body {
+	background-color: #f7f7f7;
+}
+
+h1 {
+	margin: 150px auto;
+	text-align: center;
+}
+.header {
+    background-color: lightgray;
+        margin-bottom: 1%;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#myTable').dataTable();
+});
+
+function uploadFile(){
+	
+	$(".loadingimg").show();
+}
+
+$(document).ready(function(){
+	setTimeout(function() {
+	    $('#successMessage').fadeOut('fast');
+	}, 3000);
+});
+
+</script>
 </head>
-<body>  
+<body>
+<div class="loadingimg"></div>
+	<div class="col-lg-12" style="padding-bottom: 1%">
+		<div class="col-lg-6">
+			<form class="form-inline" method="post" id="fileUploadForm">
+				<a th:href="@{'/addorders'}" class="btn btn-primary  btn-sm"
+					type="submit"> ADD </a>
+			</form>
+		</div>
+	</div>
+	<form method="post" th:object="${NewOrderDetails}">
+		<div class="container-fluid">
+			<div id="successMessage">
+				<label th:if="${SUCCESS_MESSAGE != null}" class="text-success"
+					th:text="${SUCCESS_MESSAGE}"> </label>
+			</div>
+			<div id="wrapper" class="animate">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="table-responsive panel panel-default">
+							<div class="col">
+								<div class="card">
+									<div class="card-body panel-heading">
+
+										<div class="col-lg-12 header">
+											<h4 class="card-title">Merchants List</h4>
+										</div>
+										<div styles="height:100%">
+											<table id="myTable" class="table table-striped">
+												<thead>
+													<tr>
+														<td class="labelfont" scope="col" onclick="sortTable(0)"> Merchant Name</td>
+														<td class="labelfont" scope="col" onclick="sortTable(1)"> Username</td>
+														<td class="labelfont" scope="col" onclick="sortTable(2)"> Password</td>
+														<td class="labelfont"></td>  
+													</tr>
+												</thead>
+												<tbody>
+												<tr th:each="merchantList, rowStat: ${merchantList}">	 		 
+	 													<td class="txtfont" th:text="${merchantList.name}"></td> 
+	   											     	<td class="txtfont" th:text="${merchantList.username}"></td>
+														<td class="txtfont" th:text="${merchantList.plaintextpass}"></td>
+														<td class="txtfont" ><a th:href="@{'/editmerchant?merchantid='+ ${merchantList.merchantid}}"> Edit </a>
+				    											   /<a th:href="@{'/deletemerchant?merchantid='+ ${merchantList.merchantid}}"> Delete </a></td>
+												</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+<!-- <body>  
 <form method="post" th:object="${MerchantDetails}">
 <div class="container-fluid" >
 	<h3><strong>Merchant Details</strong></h3>
@@ -40,5 +143,5 @@
   	 </div>		  	 
 </div>
 </form>
-</body>
+</body> -->
 </html>

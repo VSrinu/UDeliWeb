@@ -23,7 +23,7 @@
 
 <body>
 	<form method="POST" th:object="${orderdetails}"
-		th:action="@{/addorders}">
+		th:action="@{/addorders}" role="form" data-toggle="validator">
 		<input class="form-control hidden" th:field="*{orderid}" /> <input
 			class="form-control hidden" th:field="*{merchantid}" />
 		<div id="wrapper" class="animate">
@@ -40,144 +40,115 @@
 
 									<div class="form-row">
 										<div class="form-group col-md-6">
-											<label for="ordertitle">Order Title</label> <input
-												class="form-control input-md" placeholder="Order Title"
-												th:field="*{ordertitle}" /> <label
-												th:if="${#fields.hasErrors('ordertitle')}"
-												class="text-danger" th:errors="*{ordertitle}"></label>
+											<label for="ordertitle">Order Title</label> 
+											<input class="form-control input-md" placeholder="Order Title" th:field="*{ordertitle}" /> 
+											<label	th:if="${#fields.hasErrors('ordertitle')}" class="text-danger" th:errors="*{ordertitle}"></label>
 										</div>
 										<div class="form-group col-md-6">
-											<label for="orderdetails">Order Details</label> <input
-												class="form-control input-md" placeholder="Order Details"
-												th:field="*{orderdetails}" /> <label
-												th:if="${#fields.hasErrors('orderdetails')}"
-												class="text-danger" th:errors="*{orderdetails}"></label>
+											<label for="orderdetails">Order Details</label> 
+											<input	class="form-control input-md" placeholder="Order Details" th:field="*{orderdetails}"  /> 
+											<label th:if="${#fields.hasErrors('orderdetails')}" class="text-danger" th:errors="*{orderdetails}"></label>
 										</div>
 									</div>
 
 									<div class="form-row">
 										<div class="form-group col-md-4">
-											<label for="name">Customer Name</label> <input
-												class="form-control input-md" placeholder="Customer Name"
-												th:field="*{customername}" /> <label
-												th:if="${#fields.hasErrors('customername')}"
-												class="text-danger" th:errors="*{customername}"></label>
+											<label for="name">Customer Name</label> 
+											<input	class="form-control input-md" placeholder="Customer Name" th:field="*{customername}" />
+											<label th:if="${#fields.hasErrors('customername')}" class="text-danger" th:errors="*{customername}"></label>
 										</div>
 										<div class="form-group col-md-4">
-											<label for="phonenumber">Phone Number</label> <input
-												class="form-control input-md" placeholder="PhoneNumber"
-												th:field="*{phonenumber}" /> <label
-												th:if="${#fields.hasErrors('phonenumber')}"
-												class="text-danger" th:errors="*{phonenumber}"></label>
+											<label for="phonenumber">Phone Number</label> 
+											<input class="form-control input-md" placeholder="PhoneNumber" th:field="*{phonenumber}" /> 
+											<label th:if="${#fields.hasErrors('phonenumber')}" class="text-danger" th:errors="*{phonenumber}"></label>
 										</div>
 										<div class="form-group col-md-4">
-											<label for="email">Email</label> <input
-												class="form-control input-md" placeholder="Email"
-												th:field="*{email}" /> <label
-												th:if="${#fields.hasErrors('email')}" class="text-danger"
-												th:errors="*{email}"></label>
+											<label for="email">Email</label> 
+											<input class="form-control input-md" id="inputEmail" placeholder="Email" th:field="*{email}" /> 
+											<label	th:if="${#fields.hasErrors('email')}" class="text-danger" th:errors="*{email}"></label>
+											<div class="help-block with-errors"></div>
 										</div>
 									</div>
 
 									<div class="form-row">
 										<div class="form-group col-md-4">
-											<label for="address">Address</label> <input
-												class="form-control input-md" placeholder="Address"
-												th:field="*{address}" /> <label
-												th:if="${#fields.hasErrors('address')}" class="text-danger"
-												th:errors="*{address}"></label>
+											<label for="address">Address</label> 
+											<input class="form-control input-md" placeholder="Address" th:field="*{address}" /> 
+											<label th:if="${#fields.hasErrors('address')}" class="text-danger" th:errors="*{address}"></label>
 										</div>
 										<div class="form-group col-md-3">
-											<label for="city">City</label> <input
-												class="form-control input-md" placeholder="City"
-												th:field="*{city}" /> <label
-												th:if="${#fields.hasErrors('city')}" class="text-danger"
-												th:errors="*{city}"></label>
+											<label for="city">City</label> 
+											<input class="form-control input-md" placeholder="City" th:field="*{city}" /> 
+											<label th:if="${#fields.hasErrors('city')}" class="text-danger" th:errors="*{city}"></label>
 										</div>
 										<div class="form-group col-md-3">
-											<label for="state">State</label> <input
-												class="form-control input-md" placeholder="State"
-												th:field="*{state}" /> <label
-												th:if="${#fields.hasErrors('state')}" class="text-danger"
-												th:errors="*{state}"></label>
+											<label for="state">State</label> 
+											<input class="form-control input-md" placeholder="State" th:field="*{state}" /> 
+											<label th:if="${#fields.hasErrors('state')}" class="text-danger" th:errors="*{state}"></label>
 										</div>
 										<div class="form-group col-md-2">
-											<label for="zip">Zip</label> <input
-												class="form-control input-md" placeholder="Zip"
-												th:field="*{zip}" /> <label
-												th:if="${#fields.hasErrors('zip')}" class="text-danger"
-												th:errors="*{zip}"></label>
+											<label for="zip">Zip</label> 
+											<input class="form-control input-md" placeholder="Zip" th:field="*{zip}" /> 
+											<label th:if="${#fields.hasErrors('zip')}" class="text-danger" th:errors="*{zip}"></label>
 										</div>
 									</div>
 
 									<div class="form-row">
 										<div class="form-group col-md-4">
-											<label for="bags">Number Of Bags</label> <input
-												class="form-control input-md" placeholder="bags"
-												th:field="*{numberofbags}" /> <label
-												th:if="${#fields.hasErrors('numberofbags')}"
-												class="text-danger" th:errors="*{numberofbags}"></label>
+											<label for="bags">Number Of Bags</label> 
+											<input class="form-control input-md" placeholder="bags" th:field="*{numberofbags}" /> 
+											<label th:if="${#fields.hasErrors('numberofbags')}" class="text-danger" th:errors="*{numberofbags}"></label>
 										</div>
 										<div class="form-group col-md-4">
-											<label for="items">Total Items</label> <input
-												class="form-control input-md" placeholder="items"
-												th:field="*{totalitems}" /> <label
-												th:if="${#fields.hasErrors('totalitems')}"
-												class="text-danger" th:errors="*{totalitems}"></label>
+											<label for="items">Total Items</label> 
+											<input class="form-control input-md" placeholder="items" th:field="*{totalitems}" /> 
+											<label th:if="${#fields.hasErrors('totalitems')}" class="text-danger" th:errors="*{totalitems}"></label>
 										</div>
 										<div class="form-group col-md-4">
-											<label for="weight">Total Weight</label> <input
-												class="form-control input-md" placeholder="weight"
-												th:field="*{totalweight}" /> <label
-												th:if="${#fields.hasErrors('totalweight')}"
-												class="text-danger" th:errors="*{totalweight}"></label>
+											<label for="weight">Total Weight (lbs)</label> 
+											<input class="form-control input-md" placeholder="weight" th:field="*{totalweight}" /> 
+											<label th:if="${#fields.hasErrors('totalweight')}" class="text-danger" th:errors="*{totalweight}"></label>
 										</div>
 									</div>
 									<div class="form-row">
 										<div class="form-group col-md-3">
-											<label for="perishable">Perishable</label> <select
-												class="form-control" th:field="*{perishable}">
+											<label for="perishable">Perishable</label> 
+											<select class="form-control" th:field="*{perishable}">
 												<option value="1">YES</option>
 												<option value="0">NO</option>
-											</select> <label th:if="${#fields.hasErrors('perishable')}"
-												class="text-danger" th:errors="*{perishable}"></label>
+											</select> 
+											<label th:if="${#fields.hasErrors('perishable')}" class="text-danger" th:errors="*{perishable}"></label>
 										</div>
 										<div class="form-group col-md-3">
-											<label for="fragile">Fragile</label> <select
+											<label for="fragile">Fragile</label> 
+											<select
 												class="form-control" th:field="*{fragile}">
 												<option value="1">YES</option>
 												<option value="0">NO</option>
-											</select> <label th:if="${#fields.hasErrors('fragile')}"
-												class="text-danger" th:errors="*{fragile}"></label>
+											</select> 
+											<label th:if="${#fields.hasErrors('fragile')}" class="text-danger" th:errors="*{fragile}"></label>
 										</div>
 										<div class="form-group col-md-3">
 											<label for="deliverytimes">Delivery Date & Time</label>
 											<div class='input-group date' id='datetimepicker1'>
-												<input class="form-control input-md" id="txtdate"
-													data-date-format="YYYY-MM-DD hh:mm:ss.000"
-													th:field="*{preferreddeliverytime}" /> <span
-													class="input-group-addon"> <span
-													class="glyphicon glyphicon-calendar"></span> <label
-													th:if="${#fields.hasErrors('preferreddeliverytime')}"
-													class="text-danger" th:errors="*{preferreddeliverytime}"></label>
+												<input class="form-control input-md" data-date-format="YYYY-MM-DD HH:mm:ss" th:field="*{preferreddeliverytime}" /> 
+												<span class="input-group-addon"> 
+												<span class="glyphicon glyphicon-calendar"></span> 
+												<label th:if="${#fields.hasErrors('preferreddeliverytime')}" class="text-danger" th:errors="*{preferreddeliverytime}"></label>
 												</span>
 											</div>
 										</div>
 										<div class="form-group col-md-3">
-											<label for="Distance">Distance</label> <input
-												class="form-control input-md" placeholder="Distance"
-												th:field="*{storetocustlocation}" /> <label
-												th:if="${#fields.hasErrors('storetocustlocation')}"
-												class="text-danger" th:errors="*{storetocustlocation}"></label>
+											<label for="Distance">Distance</label> 
+											<input class="form-control input-md" placeholder="Distance" th:field="*{storetocustlocation}" /> 
+											<label th:if="${#fields.hasErrors('storetocustlocation')}" class="text-danger" th:errors="*{storetocustlocation}"></label>
 										</div>
 									</div>
 
 									<div class="row btnOffset">
 										<div class="col-lg-10" align="center">
-											<input class="btn btn-primary  btn-sm" type="submit"
-												name="save" value="SAVE" /> <input
-												class="btn btn-primary  btn-sm" type="submit" name="cancel"
-												value="CANCEL" />
+											<input class="btn btn-primary  btn-sm" type="submit" name="save" value="SAVE" /> 
+											<input class="btn btn-primary  btn-sm" type="submit" name="cancel" value="CANCEL" />
 										</div>
 									</div>
 
@@ -190,7 +161,7 @@
 		</div>
 
 	</form>
-	<script>
+	<script type="text/javascript">
 		$(function() {
 			$('#datetimepicker1').datetimepicker({
 				minDate : 0
@@ -203,4 +174,15 @@
 		    });
 		}); */
 	</script>
+	<!-- <script type="text/javascript" language="javascript"> 
+		function validateMyForm() { 
+			if (parseInt(document.forms[0].phone.value)  
+      				  != document.forms[0].phone.value) { 
+			alert('Please enter a phone number, numbers only'); 
+			return false; 
+			} 
+			return true; 
+			} 
+</script> -->
+</body>
 </html>

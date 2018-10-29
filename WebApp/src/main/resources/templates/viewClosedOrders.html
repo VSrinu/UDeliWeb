@@ -90,29 +90,31 @@ function sortTable(n) {
               <table class="table full-color-table full-inverse-table table-striped table-hover" id="closedTable">
                 <thead>
                   <tr>
-                    <th class="labelfont" scope="col" onclick="sortTable(0)">Order Title</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(1)">Customer Name</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(2)">Address</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(3)">Phone Number</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(4)">Email</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(5)">Number Of Bags</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(6)">Total Weight</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(7)">Distance</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(8)">Status</th>
-                    <th class="labelfont" scope="col" onclick="sortTable(9)">Carrier Name</th>
+                  	<th class="labelfont" scope="col" onclick="sortTable(0)">Job ID</th>
+                    <th class="labelfont" scope="col" onclick="sortTable(1)">Order Title</th>
+                    <th class="labelfont" scope="col" onclick="sortTable(2)">Customer Name</th>
+                    <th class="labelfont" scope="col" onclick="sortTable(3)">Address</th>
+                    <th class="labelfont" scope="col" onclick="sortTable(4)">Phone Number</th>
+                    <th class="labelfont" scope="col" onclick="sortTable(5)">Email</th>
+                    <!-- <th class="labelfont" scope="col" onclick="sortTable(5)">Number Of Bags</th>
+                    <th class="labelfont" scope="col" onclick="sortTable(6)">Total Weight</th> -->
+                    <!-- <th class="labelfont" scope="col" onclick="sortTable(7)">Distance</th> -->
+                   <!--  <th class="labelfont" scope="col" onclick="sortTable(8)">Status</th> -->
+                    <th class="labelfont" scope="col" onclick="sortTable(6)">Carrier Name</th>
                   </tr>
                 </thead>
                 <tbody>
-                 <tr th:each="ordersList, rowStat: ${ordersList}">	 		 
+                 <tr th:each="ordersList, rowStat: ${ordersList}">	 	
+                 	<td class="txtfont" th:text="${ordersList.orderid}"></td> 	 
 	 				<td class="txtfont" th:text="${ordersList.ordertitle}"></td> 
 					<td class="txtfont" th:text="${ordersList.customername}"></td>
 					<td class="txtfont" th:text="${ordersList.address}"></td> 
 	        		<td class="txtfont" th:text="${ordersList.phonenumber}"></td>
 					<td class="txtfont" th:text="${ordersList.email}"></td>
-					<td class="txtfont" th:text="${ordersList.numberofbags}"></td> 
-	        		<td class="txtfont" th:text="${ordersList.totalweight}"></td>
-					<td class="txtfont" th:text="${ordersList.storetocustlocation}"></td>
-					<td class="txtfont" th:text="${ordersList.stutes_text}"></td>
+					<!-- <td class="txtfont" th:text="${ordersList.numberofbags}"></td> 
+	        		<td class="txtfont" th:text="${ordersList.totalweight}"></td> -->
+					<!-- <td class="txtfont" th:text="${ordersList.storetocustlocation}"></td> -->
+					<!-- <td class="txtfont" th:text="${ordersList.stutes_text}"></td> -->
 					<td class="txtfont" th:text="${ordersList.carrier_name}"></td>
 				</tr>
                 </tbody>

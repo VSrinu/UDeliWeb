@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.uDeli.model.CarrierDetails;
 import com.uDeli.model.GetUserProfile;
+import com.uDeli.model.GlympseDetails;
+/*import com.uDeli.model.GlympseDetails;*/
 import com.uDeli.model.MerchantDetails;
 import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
@@ -47,6 +49,6 @@ public interface UDeliRepositoryCustom{
 
 	public void distanceCalculation(Integer orderid);
 
+	public void orgDetails(GlympseDetails glympseDetails, Integer merchantid);
 
-	
 }

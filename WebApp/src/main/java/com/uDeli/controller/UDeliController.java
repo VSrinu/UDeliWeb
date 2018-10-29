@@ -39,6 +39,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uDeli.model.CarrierDetails;
 import com.uDeli.model.GetUserProfile;
+import com.uDeli.model.GlympseDetails;
 import com.uDeli.model.MerchantDetails;
 import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
@@ -447,7 +448,7 @@ public class UDeliController {
 						orderdetails.setEmail(orderList.get(8).toString());
 						orderdetails.setNumberofbags(Integer.parseInt(orderList.get(9).toString()));
 						orderdetails.setTotalitems(Integer.parseInt(orderList.get(10).toString()));
-						orderdetails.setTotalweight(Integer.parseInt(orderList.get(11).toString()));
+						orderdetails.setTotalweight(Float.parseFloat(orderList.get(11).toString()));
 						orderdetails.setPerishable(Integer.parseInt(orderList.get(12).toString()));
 						orderdetails.setFragile(Integer.parseInt(orderList.get(13).toString()));
 						String sDate = orderList.get(14).toString();
@@ -457,7 +458,7 @@ public class UDeliController {
 						long millis = date1.getTime();
 						Timestamp ts = new Timestamp(millis);
 						orderdetails.setPreferreddeliverytime(ts);
-						orderdetails.setStoretocustlocation(10);
+						orderdetails.setStoretocustlocation(10f);
 						System.out.println("Order List Details=======" + orderList);
 						udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
 					}
@@ -480,5 +481,31 @@ public class UDeliController {
 			return "redirect:/vieworders";
 		}
 	}
+	
+	@RequestMapping(value = "/orgDetails", method = RequestMethod.GET)
+	public String orgDetails(HttpServletRequest request, Model model, GlympseDetails glympseDetails) {
+		System.out.println(glympseDetails + "==========Start Add org details======================"
+				+ userDetailsList.get(0).getMerchantid());
+		model.addAttribute("glympseDetails", glympseDetails);
+		return "orgDetails";
+	}
 
+	@RequestMapping(value = "/orgDetails", params = "submit", method = RequestMethod.POST)
+	public ModelAndView addOrgDetails(HttpServletRequest request, Model model, GlympseDetails glympseDetails,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		System.out.println("==========Save Add Orders details======================"+ userDetailsList.get(0).getMerchantid());
+		if (bindingResult.hasErrors()) {
+			redirectTo = "orgDetails";
+		} else{
+			System.out.println("id======="+ glympseDetails.getGlympseorgid() +"username========="+glympseDetails.getGlympseusername()+"password==========="+glympseDetails.getGlympsepassword());
+			udeliRepo.orgDetails(glympseDetails, userDetailsList.get(0).getMerchantid());
+//			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Order inserted Successfully");
+		}
+			/*udeliRepo.orgDetails(glympseDetails, userDetailsList.get(0).getMerchantid());*/
+
+		System.out.println("==========End Add org details======================");
+		model.addAttribute("glympseDetails", glympseDetails);
+		return new ModelAndView("redirect:/vieworders");
+	}
+	
 }

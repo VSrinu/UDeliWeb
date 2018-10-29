@@ -36,65 +36,62 @@ public class OrderDetails {
 	@Column(name="merchantid")
 	private Integer merchantid;
 	
-	@NotBlank(message="ordertitle cannot be blank.")
+	@NotBlank(message="Ordertitle cannot be blank.")
 	@Column(name="ordertitle")
 	private String ordertitle;
 	
-	@NotBlank(message="orderdetails cannot be blank.")
+	@NotBlank(message="Orderdetails cannot be blank.")
 	@Column(name="orderdetails")
 	private String orderdetails;
 	
-	@NotBlank(message="customername cannot be blank.")
+	@NotBlank(message="Customername cannot be blank.")
 	@Column(name="customername")
 	private String customername;
 	
-	@NotBlank(message="address cannot be blank.")
+	@NotBlank(message="Address cannot be blank.")
 	private String address;
 	
-	@NotBlank(message="city cannot be blank.")
+	@NotBlank(message="City cannot be blank.")
     private String city;
 	
-	@NotBlank(message="state cannot be blank.")
+	@NotBlank(message="State cannot be blank.")
     private String state;
 	
-	@NotBlank(message="zip cannot be blank.")
+	@NotBlank(message="Zip cannot be blank.")
     private String zip;
 	
-	@NotBlank(message="phonenumber cannot be blank.")
+	@NotBlank(message="Phonenumber cannot be blank.")
     private String phonenumber;
 	
-	@NotBlank(message="email cannot be blank.")
+	@NotBlank(message="Email cannot be blank.")
     private String email;
     
-    @NotBlank(message="numberofbags cannot be blank.")
+    @NotBlank(message="Numberofbags cannot be blank.")
     private Integer numberofbags;
     
-    @NotBlank(message="totalitems cannot be blank.")
+    @NotBlank(message="Totalitems cannot be blank.")
     private Integer totalitems;
     
-    @NotBlank(message="totalitems cannot be blank.")
+    @NotBlank(message="Totalitems cannot be blank.")
     private Integer perishable;
     
-    @NotBlank(message="totalweight cannot be blank.")
-    private Integer totalweight;
+    @NotBlank(message="Totalweight cannot be blank.")
+    private Float totalweight;
     
-    @NotBlank(message="fragile cannot be blank.")
+    @NotBlank(message="Fragile cannot be blank.")
     private Integer fragile;
     
-    @NotBlank(message="preferreddeliverytime cannot be blank.")
+    @NotBlank(message="Preferreddeliverytime cannot be blank.")
     private Timestamp preferreddeliverytime; 
     
     private Integer status;
     
-    @NotBlank(message="storetocustlocation cannot be blank.")
-    private Integer storetocustlocation;
-    
-  /*  @NotBlank(message="Distance cannot be blank.")
-    private Integer distance;*/
+    @NotBlank(message="Storetocustlocation cannot be blank.")
+    private Float storetocustlocation;
 	
    	public OrderDetails(Integer orderid, Integer merchantid, String ordertitle, String orderdetails, String customername, String address, String city, String state,
-    String zip, String phonenumber, String email, Integer numberofbags, Integer totalitems, Integer totalweight,  Integer perishable, Integer fragile, 
-    Timestamp preferreddeliverytime, Integer status, Integer storetocustlocation) {
+    String zip, String phonenumber, String email, Integer numberofbags, Integer totalitems, Float totalweight,  Integer perishable, Integer fragile, 
+    Timestamp preferreddeliverytime, Integer status, Float storetocustlocation) {
     	super();
     	
     	this.orderid = orderid;
@@ -224,11 +221,11 @@ public class OrderDetails {
 		this.totalitems = totalitems;
 	}
 
-	public Integer getTotalweight() {
+	public Float getTotalweight() {
 		return totalweight;
 	}
 
-	public void setTotalweight(Integer totalweight) {
+	public void setTotalweight(Float totalweight) {
 		this.totalweight = totalweight;
 	}
 
@@ -264,11 +261,11 @@ public class OrderDetails {
 		this.status = status;
 	}
 
-	public Integer getStoretocustlocation() {
+	public Float getStoretocustlocation() {
 		return storetocustlocation;
 	}
 
-	public void setStoretocustlocation(Integer storetocustlocation) {
+	public void setStoretocustlocation(Float storetocustlocation) {
 		this.storetocustlocation = storetocustlocation;
 	}
     

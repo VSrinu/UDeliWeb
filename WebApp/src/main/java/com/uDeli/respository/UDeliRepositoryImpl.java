@@ -11,6 +11,7 @@ import javax.persistence.StoredProcedureQuery;
 
 import com.uDeli.model.CarrierDetails;
 import com.uDeli.model.GetUserProfile;
+import com.uDeli.model.GlympseDetails;
 import com.uDeli.model.MerchantDetails;
 import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
@@ -266,12 +267,12 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		   spQuery.registerStoredProcedureParameter(8, String.class, ParameterMode.IN);
 		   spQuery.registerStoredProcedureParameter(9, Integer.class, ParameterMode.IN);
 		   spQuery.registerStoredProcedureParameter(10, Integer.class, ParameterMode.IN);
-		   spQuery.registerStoredProcedureParameter(11, Integer.class, ParameterMode.IN);
+		   spQuery.registerStoredProcedureParameter(11, Float.class, ParameterMode.IN);
 		   spQuery.registerStoredProcedureParameter(12, Integer.class, ParameterMode.IN); 
 		   spQuery.registerStoredProcedureParameter(13, Integer.class, ParameterMode.IN);
 		   spQuery.registerStoredProcedureParameter(14, Timestamp.class, ParameterMode.IN);
 		   spQuery.registerStoredProcedureParameter(15, Integer.class, ParameterMode.IN);
-		   spQuery.registerStoredProcedureParameter(16, Integer.class, ParameterMode.IN);
+		   spQuery.registerStoredProcedureParameter(16, Float.class, ParameterMode.IN);
 		
 		   
 		   spQuery.setParameter(0,orderdetails.getOrdertitle());
@@ -347,5 +348,36 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		   
 	 
 	}
+	
+	@Override
+	public void orgDetails(GlympseDetails glympseDetails, Integer merchantid) {
+		System.out.println("org repositry details================== start");
+	try {
+		System.out.println("===================Try block start==========================");
+		
+		System.out.println("orgid"+glympseDetails.getGlympseorgid());
+		System.out.println("orgusername"+glympseDetails.getGlympseusername());
+		System.out.println("orgpwd"+glympseDetails.getGlympsepassword());
+		System.out.println("mid"+merchantid);
+		spQuery =  em.createNamedStoredProcedureQuery("getorgdetails");
+		System.out.println("===================Try block end==========================");
+		spQuery.registerStoredProcedureParameter(0, Integer.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(3, Integer.class, ParameterMode.IN);
+		spQuery.setParameter(0,glympseDetails.getGlympseorgid());
+		spQuery.setParameter(1,glympseDetails.getGlympseusername());
+		spQuery.setParameter(2,glympseDetails.getGlympsepassword());
+		spQuery.setParameter(3,merchantid);  
+		}
+	catch(Exception exception) {
+		exception.printStackTrace();
+		System.out.println(exception);
+		
+	}  
+	System.out.println("org repositry details================== end");
+		   
+	}	
+
 	
 	}

@@ -39,16 +39,16 @@ public class OrderDetailsList {
     private Integer numberofbags;
     private Integer totalitems;
     private Integer perishable;
-    private Integer totalweight;
+    private Float totalweight;
     private Integer fragile;
     private Timestamp preferreddeliverytime; 
     private String stutes_text;
-    private Integer storetocustlocation;
+    private Float storetocustlocation;
     private String carrier_name;
     
     public OrderDetailsList(Integer orderid, String ordertitle, String customername, String Address, String phonenumber, String email, Integer numberofbags,
-    				Integer totalitems, Integer perishable, Integer totalweight, Integer fragile, Timestamp preferreddeliverytime, String stutes_text,
-     Integer storetocustlocation, String carrier_name) {
+    				Integer totalitems, Integer perishable, Float totalweight, Integer fragile, Timestamp preferreddeliverytime, String stutes_text,
+    				Float storetocustlocation, String carrier_name) {
 		super();
 		this.orderid = orderid;
 		this.ordertitle = ordertitle;
@@ -140,11 +140,11 @@ public class OrderDetailsList {
 		this.perishable = perishable;
 	}
 
-	public Integer getTotalweight() {
+	public Float getTotalweight() {
 		return totalweight;
 	}
 
-	public void setTotalweight(Integer totalweight) {
+	public void setTotalweight(Float totalweight) {
 		this.totalweight = totalweight;
 	}
 
@@ -172,11 +172,11 @@ public class OrderDetailsList {
 		this.stutes_text = stutes_text;
 	}
 
-	public Integer getStoretocustlocation() {
+	public Float getStoretocustlocation() {
 		return storetocustlocation;
 	}
 
-	public void setStoretocustlocation(Integer storetocustlocation) {
+	public void setStoretocustlocation(Float storetocustlocation) {
 		this.storetocustlocation = storetocustlocation;
 	}
 

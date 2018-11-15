@@ -7,36 +7,24 @@ import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity 
 @Table(name = "tmerchant") 
 @NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(name = "getallmerchants",procedureName = "pgetallmerchants",resultClasses = MerchantDetails.class),
-        @NamedStoredProcedureQuery(name = "pinsertmerchant",procedureName = "pInsertMerchant",resultClasses = MerchantDetails.class),
-        @NamedStoredProcedureQuery(name = "getmerchantdetailsbyid",procedureName = "pgetmerchantdetailsbyid",resultClasses = MerchantDetails.class),
-        @NamedStoredProcedureQuery(name = "updatemerchant",procedureName = "pupdatemerchant",resultClasses = MerchantDetails.class),
-        @NamedStoredProcedureQuery(name = "deletemerchant",procedureName = "pdeletemerchant",resultClasses = MerchantDetails.class),
-        @NamedStoredProcedureQuery(name = "getorgdetails",procedureName = "pgetorgdetails",resultClasses = MerchantDetails.class),
-        @NamedStoredProcedureQuery(name = "getProfileByMId",procedureName = "pgetProfileByMId",resultClasses = MerchantDetails.class)
+       
+        @NamedStoredProcedureQuery(name = "getprofiledetails",procedureName = "pgetprofiledetails",resultClasses = ProfileDetails.class)
         
 })
-
-public class MerchantDetails {
-	
-	public MerchantDetails() {		
+public class ProfileDetails {
+		
+	public ProfileDetails() {		
 	}
  
 	@Id
 	@GeneratedValue
 	@Column(name="merchantid")
 	private Integer merchantid;
-	
-	@Column(name="usertype")
-	private Character usertype;
 	
 	@NotBlank(message="Username cannot be blank.")
 	@Column(name="username")
@@ -46,15 +34,9 @@ public class MerchantDetails {
 	@Column(name="plaintextpass")
 	private String plaintextpass;
 	
-	@NotBlank(message="Merchant Name cannot be blank")
-	@Column(name="name")
-	private String name;
-	
 	@NotBlank(message="GlympseorgID cannot be blank.")
 	@Column(name="glympseorgid")
 	private Integer glympseorgid;
-	@Column(name="glympsekey")
-	private String glympsekey;
 	
 	@NotBlank(message="Glympseusername cannot be blank.")
 	@Column(name ="glympseusername")
@@ -80,9 +62,6 @@ public class MerchantDetails {
 	@NotBlank(message="Zip code cannot be blank.")
     private String zip;
 	
-	@NotBlank(message="Country cannot be blank.")
-    private String country;
-	
 	@NotBlank(message="Phone number cannot be blank.")
     private String phonenumber;
 	
@@ -95,28 +74,21 @@ public class MerchantDetails {
 	@NotBlank(message="Email cannot be blank.") 
     private String email;
 	
-	@NotBlank(message="Description cannot be blank.")
-    private String description;
-	
 	@NotBlank(message="Delivery hours cannot be blank.")
     private String deliveryhours;
 	    
-    public MerchantDetails(Character usertype, String username, String plaintextpass, Integer merchantid,
-			String name, Integer glympseorgid, String glympsekey, String address, String city, String state, String zip,
-			String country, String phonenumber, String firstname, String lastname, String email, String glympseusername, String glympsepassword, Integer offsethours) {
+    public ProfileDetails(String username, String plaintextpass, Integer merchantid,
+			Integer glympseorgid, String address, String city, String state, String zip,
+			String phonenumber, String firstname, String lastname, String email, String glympseusername, String glympsepassword, Integer offsethours) {
 		super(); 
-		this.usertype = usertype;
 		this.username = username;
 		this.plaintextpass = plaintextpass;
 		this.merchantid = merchantid;
-		this.name = name;
 		this.glympseorgid = glympseorgid;
-		this.glympsekey = glympsekey;
 		this.address = address;
 		this.city = city;
 		this.state = state;
 		this.zip = zip;
-		this.country = country;
 		this.phonenumber = phonenumber;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -125,14 +97,6 @@ public class MerchantDetails {
 		this.glympsepassword =glympsepassword;
 		this.offsethours = offsethours;
 	}	 
-     
-	public Character getUsertype() {
-		return usertype;
-	}
-
-	public void setUsertype(Character usertype) {
-		this.usertype = usertype;
-	}
 
 	public String getUsername() {
 		return username;
@@ -158,28 +122,12 @@ public class MerchantDetails {
 		this.merchantid = merchantid;
 	}
   
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Integer getGlympseorgid() {
 		return glympseorgid;
 	}
 
 	public void setGlympseorgid(Integer glympseorgid) {
 		this.glympseorgid = glympseorgid;
-	}
-
-	public String getGlympsekey() {
-		return glympsekey;
-	}
-
-	public void setGlympsekey(String glympsekey) {
-		this.glympsekey = glympsekey;
 	}
 
 	public String getAddress() {
@@ -214,14 +162,6 @@ public class MerchantDetails {
 		this.zip = zip;
 	}
 
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	public String getPhonenumber() {
 		return phonenumber;
 	}
@@ -254,17 +194,6 @@ public class MerchantDetails {
 		this.email = email;
 	}
 
-
-	public String getDescription() {
-		return description;
-	}
-
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-
 	public String getDeliveryhours() {
 		return deliveryhours;
 	}
@@ -296,4 +225,5 @@ public class MerchantDetails {
 	public void setOffsethours(Integer offsethours) {
 		this.offsethours = offsethours;
 	} 
+	
 }

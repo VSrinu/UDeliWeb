@@ -1,6 +1,5 @@
 package com.uDeli.respository;
 
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -11,11 +10,11 @@ import javax.persistence.StoredProcedureQuery;
 
 import com.uDeli.model.CarrierDetails;
 import com.uDeli.model.GetUserProfile;
-import com.uDeli.model.GlympseDetails;
 import com.uDeli.model.MerchantDetails;
 import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
 import com.uDeli.model.OrderDetailsList;
+import com.uDeli.model.ProfileDetails;
 import com.uDeli.utils.UDeliConstants;
 
 public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
@@ -272,7 +271,7 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		   spQuery.registerStoredProcedureParameter(13, Integer.class, ParameterMode.IN);
 		   spQuery.registerStoredProcedureParameter(14, Timestamp.class, ParameterMode.IN);
 		   spQuery.registerStoredProcedureParameter(15, Integer.class, ParameterMode.IN);
-		   spQuery.registerStoredProcedureParameter(16, Float.class, ParameterMode.IN);
+		   /*spQuery.registerStoredProcedureParameter(16, Float.class, ParameterMode.IN);*/
 		
 		   
 		   spQuery.setParameter(0,orderdetails.getOrdertitle());
@@ -291,7 +290,7 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		   spQuery.setParameter(13,orderdetails.getFragile());
 		   spQuery.setParameter(14,orderdetails.getPreferreddeliverytime());
 		   spQuery.setParameter(15,UDeliConstants.STATUS_NEW);
-		   spQuery.setParameter(16,orderdetails.getStoretocustlocation());
+		   /*spQuery.setParameter(16,orderdetails.getStoretocustlocation());*/
 		   
 		   if(action.equals("insert"))
 		   {
@@ -350,34 +349,84 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 	}
 	
 	@Override
-	public void orgDetails(GlympseDetails glympseDetails, Integer merchantid) {
-		System.out.println("org repositry details================== start");
+	public void orgData(MerchantDetails merchantdetails, Integer merchantid) {
 	try {
-		System.out.println("===================Try block start==========================");
-		
-		System.out.println("orgid"+glympseDetails.getGlympseorgid());
-		System.out.println("orgusername"+glympseDetails.getGlympseusername());
-		System.out.println("orgpwd"+glympseDetails.getGlympsepassword());
-		System.out.println("mid"+merchantid);
 		spQuery =  em.createNamedStoredProcedureQuery("getorgdetails");
-		System.out.println("===================Try block end==========================");
-		spQuery.registerStoredProcedureParameter(0, Integer.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
 		spQuery.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
 		spQuery.registerStoredProcedureParameter(2, String.class, ParameterMode.IN);
-		spQuery.registerStoredProcedureParameter(3, Integer.class, ParameterMode.IN);
-		spQuery.setParameter(0,glympseDetails.getGlympseorgid());
-		spQuery.setParameter(1,glympseDetails.getGlympseusername());
-		spQuery.setParameter(2,glympseDetails.getGlympsepassword());
-		spQuery.setParameter(3,merchantid);  
+		spQuery.registerStoredProcedureParameter(3, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(4, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(5, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(6, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(7, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(8, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(9, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(10, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(11, Integer.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(12, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(13, String.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(14, Integer.class, ParameterMode.IN);
+		spQuery.registerStoredProcedureParameter(15, Integer.class, ParameterMode.IN);
+		
+		spQuery.setParameter(0,merchantdetails.getAddress());
+		spQuery.setParameter(1,merchantdetails.getCity());
+		spQuery.setParameter(2,merchantdetails.getState());
+		spQuery.setParameter(3,merchantdetails.getZip()); 
+		spQuery.setParameter(4,merchantdetails.getPhonenumber());
+		spQuery.setParameter(5,merchantdetails.getFirstname());
+		spQuery.setParameter(6,merchantdetails.getLastname());
+		spQuery.setParameter(7,merchantdetails.getEmail());
+		spQuery.setParameter(8,merchantdetails.getDeliveryhours());
+		spQuery.setParameter(9,merchantdetails.getUsername()); 
+		spQuery.setParameter(10,merchantdetails.getPlaintextpass()); 
+		spQuery.setParameter(11,merchantdetails.getGlympseorgid());
+		spQuery.setParameter(12,merchantdetails.getGlympseusername());
+		spQuery.setParameter(13,merchantdetails.getGlympsepassword());
+		spQuery.setParameter(14,merchantdetails.getOffsethours());
+		spQuery.setParameter(15,merchantid);  
+		boolean s = spQuery.execute();
 		}
 	catch(Exception exception) {
 		exception.printStackTrace();
 		System.out.println(exception);
 		
 	}  
-	System.out.println("org repositry details================== end");
 		   
 	}	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProfileDetails> editOrgDetails(Integer merchantid){
+		StoredProcedureQuery spQuery = em.createNamedStoredProcedureQuery("getprofiledetails");
+			spQuery.registerStoredProcedureParameter(0, Integer.class, ParameterMode.IN);
+			spQuery.setParameter(0, merchantid);
+		List<ProfileDetails> profileDetails = spQuery.getResultList();
+		return profileDetails;
+		
+	}
+	
+	/*@SuppressWarnings("unchecked")
+	public List<PushNotification> notification(){
+		StoredProcedureQuery spQuery = em.createNamedStoredProcedureQuery("getDeviceDetails");
+			List<PushNotification> pushNotification = spQuery.getResultList();
+			return pushNotification;
+	}
+	*/
+	/*@Autowired
+    private AppProperties appProperties;
 
+    public void post(APNsContent apNsContent) {
+        
+        ApnsService service =
+                APNS.newService()
+                        .withCert(cert, LGConstants.P12_CERTIFICATES_BETA_PWD)
+                        .withProductionDestination()
+                        .build();
+        String payload = APNS.newPayload().alertBody(apNsContent.getMessage()).build();
+        String token = apNsContent.getDeviceuid();
+        service.push(token, payload);
+        log.debug("APNS  end");
+    }*/
 	
 	}

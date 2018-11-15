@@ -117,9 +117,17 @@ h1 {
 	})();
 </script> -->
 <script type="text/javascript">
-$(document).ready(function(){
+/* $(document).ready(function(){
     $('#myTable').dataTable();
-});
+    $('.dataTables_length').addClass('bs-select');
+}); */
+
+$(document).ready(function () {
+	  $('#myTable').DataTable({
+	    "order": [ 0, "false" ]
+	  });
+	  $('.dataTables_length').addClass('bs-select');
+	});
 
 function uploadFile(){
 	

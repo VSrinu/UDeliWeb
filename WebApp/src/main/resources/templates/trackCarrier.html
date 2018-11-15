@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+ <script src="//glympse.com/js/loader/latest/jquery.glympser.min.js"></script>
+    <script src="//console.enterprise.glympse.com/js/tracking/widgets/0.1/widgets.js"></script>
+
+    <script>
+        $(function () {
+            var access_token = document.getElementById('<%= hdnfldVariable.ClientID%>').value;
+
+            $("#ops-holder").recent_operations({
+                access_token: access_token,
+                from_ts: 1499691485217,
+                to_ts: 1899359599999
+            });
+
+            //    $("#tasks-holder").unassigned_tasks({
+            //        access_token: access_token,
+            //        from_ts: 1398322800000,
+            //        to_ts: 1499359599999
+            //    });
+        });
+    </script>  
+    <style>
+        #ops-holder {
+            margin-top: 30px;
+            width: 100%;
+            height: 450px;
+        }
+        #tasks-holder {
+            margin-top: 30px;
+            width: 100%;            
+        }
+    </style> 
+</head>
+<body>
+
+</body>
+</html>
+
+<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="TrackAgent.aspx.cs" Inherits="Oomy.TrackAgent" %>
+
+<asp:Content runat="server" ID="FeaturedContent" ContentPlaceHolderID="FeaturedContent"></asp:Content>
+<asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
+               
+       
+    <style>
+        #ops-holder {
+            margin-top: 30px;
+            width: 100%;
+            height: 450px;
+        }
+        #tasks-holder {
+            margin-top: 30px;
+            width: 100%;            
+        }
+    </style>
+      <div class="container">                
+        <hr/>
+        <div>
+            <h4>Drivers in the Field</h4>
+        </div>
+        <div id="ops-holder">
+        </div>
+        <hr/>
+        <%--<div>
+            <h4>Unassigned Tasks</h4>
+        </div>
+        <div id="tasks-holder">
+        </div>--%>
+    </div>
+
+<%--    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>    
+    <script src="//maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+    <script src="//glympse.com/stable/js/loader/3.230/jquery.glympser.min.js"></script>
+    <script src="//console.enterprise.glympse.com/js/tracking/widgets/0.1/widgets.js"></script>--%>
+
+    
+    <%--<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+    <script src="//glympse.com/js/loader/4.0.0b67/jquery.glympser.min.js"></script>
+    <script src="//console.enterprise.glympse.com/js/tracking/widgets/0.1/widgets.js"></script>--%>
+
+
+   
+    <script src="//glympse.com/js/loader/latest/jquery.glympser.min.js"></script>
+    <script src="//console.enterprise.glympse.com/js/tracking/widgets/0.1/widgets.js"></script>
+
+    <script>
+        $(function () {
+            var access_token = document.getElementById('<%= hdnfldVariable.ClientID%>').value;
+
+            $("#ops-holder").recent_operations({
+                access_token: access_token,
+                from_ts: 1499691485217,
+                to_ts: 1899359599999
+            });
+
+            //    $("#tasks-holder").unassigned_tasks({
+            //        access_token: access_token,
+            //        from_ts: 1398322800000,
+            //        to_ts: 1499359599999
+            //    });
+        });
+    </script>   
+      <asp:HiddenField ID="hdnfldVariable" runat="server" />      
+</asp:Content>

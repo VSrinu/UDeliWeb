@@ -4,19 +4,38 @@
 <th:block th:include="merchantmenu"></th:block>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+<script type="text/javascript" src="js/pagination.js"></script>
+<link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css"></style>
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
 
-<script>
+	
+<style>
+body {
+	background-color: #f7f7f7;
+}
+
+h1 {
+	margin: 150px auto;
+	text-align: center;
+}
+.header {
+    background-color: lightgray;
+        margin-bottom: 1%;
+}
+</style>
+<!-- <script>
 	function myFunction() {
 		var input, filter, table, tr, td, i;
-		input = document.getElementById("approveCarriers");
+		input = document.getElementById("newOrders");
 		filter = input.value.toUpperCase();
-		table = document.getElementById("approveTable");
+		table = document.getElementById("newTable");
 		tr = table.getElementsByTagName("tr");
 		for (i = 0; i < tr.length; i++) {
 			td = tr[i].getElementsByTagName("td")[1];
@@ -32,7 +51,7 @@
 
 	function sortTable(n) {
 		var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-		table = document.getElementById("approveTable");
+		table = document.getElementById("newTable");
 		switching = true;
 		dir = "asc";
 		while (switching) {
@@ -67,45 +86,88 @@
 		}
 	}
 </script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#myTable').pageMe({
+			pagerSelector : '#myPager',
+			activeColor : 'green',
+			prevText : 'Prev',
+			nextText : 'Next',
+			showPrevNext : true,
+			hidePageNumbers : false,
+			perPage : 10
+		});
+	});
+</script>
+<script type="text/javascript">
+	var _gaq = _gaq || [];
+	_gaq.push([ '_setAccount', 'UA-36251023-1' ]);
+	_gaq.push([ '_setDomainName', 'jqueryscript.net' ]);
+	_gaq.push([ '_trackPageview' ]);
+
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+				: 'http://www')
+				+ '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
+</script> -->
+<script type="text/javascript">
+$(document).ready(function () {
+	  $('#myTable').DataTable({
+	    "order": [ 0, "false" ]
+	  });
+	  $('.dataTables_length').addClass('bs-select');
+	});
+
+function uploadFile(){
+	
+	$(".loadingimg").show();
+}
+
+$(document).ready(function(){
+	setTimeout(function() {
+	    $('#successMessage').fadeOut('fast');
+	}, 3000);
+});
+
+</script>
 </head>
 <body>
 	<form method="post" th:object="${ApproveCarrierDetails}">
-		<div>
-			<label th:if="${SUCCESS_MESSAGE != null}" class="text-success"
-				th:text="${SUCCESS_MESSAGE}"> </label>
-		</div>
+		<div class="container-fluid">
+			<div id="successMessage">
+				<label th:if="${SUCCESS_MESSAGE != null}" class="text-success"
+					th:text="${SUCCESS_MESSAGE}"> </label>
+			</div>
+			<div id="wrapper" class="animate">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="table-responsive panel panel-default">
+							<div class="col">
+								<div class="card">
+									<div class="card-body panel-heading">
 
-		<div id="wrapper" class="animate">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="panel panel-default">
-						<div class="col">
-							<div class="card">
-								<div class="card-body panel-heading">
-
-									<div class="col-lg-12">
-										<div class="col-lg-8" align="left">
+										<div class="col-lg-12 header">
 											<h4 class="card-title">Approved Carrier Details List</h4>
 										</div>
-										<div class="col-lg-4">
-											<input class="form-control" id="approveCarriers" type="text"
-												onkeyup="myFunction()"
-												placeholder="Search with  carrier name...">
-										</div>
-									</div>
-									<table
-										class="table full-color-table full-inverse-table table-striped table-hover" id="approveTable">
-										<thead>
-											<tr>
+										<div styles="height:100%">
+											<table id="myTable" class="table table-striped">
+												<thead>
+													<tr>
 												<th class="labelfont" scope="col" onclick="sortTable(0)">Name</th>
 												<th class="labelfont" scope="col" onclick="sortTable(1)">Address</th>
 												<th class="labelfont" scope="col" onclick="sortTable(2)">EmailId</th>
 												<th class="labelfont" scope="col" onclick="sortTable(3)">PhoneNumber</th>
 												<th class="labelfont" scope="col" onclick="sortTable(4)"></th>
 											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="carriersList, rowStat: ${carriersList}">
+												</thead>
+												<tbody>
+													<tr th:each="carriersList, rowStat: ${carriersList}">
 												<td class="txtfont" th:text="${carriersList.name}"></td>
 												<td class="txtfont" th:text="${carriersList.address}"></td>
 												<td class="txtfont" th:text="${carriersList.emailid}"></td>
@@ -114,15 +176,16 @@
 													th:href="@{'/denyapprovedcarrier?carrierid='+ ${carriersList.carrierid} + '&active='+ ${0}}">
 														Deny </a></td>
 											</tr>
-										</tbody>
-									</table>
+												</tbody>
+											</table>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		</div>
 	</form>
 </body>

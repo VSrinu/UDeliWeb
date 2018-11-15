@@ -14,7 +14,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.time.DateUtils;
@@ -39,11 +38,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.uDeli.model.CarrierDetails;
 import com.uDeli.model.GetUserProfile;
-import com.uDeli.model.GlympseDetails;
 import com.uDeli.model.MerchantDetails;
 import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
 import com.uDeli.model.OrderDetailsList;
+import com.uDeli.model.ProfileDetails;
 import com.uDeli.respository.UDeliRepository;
 
 @Controller
@@ -352,14 +351,15 @@ public class UDeliController {
 
 		return new ModelAndView("redirect:/vieworders");
 	}
+	
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model, OrderDetails orderdetails,
 			RedirectAttributes redirectAttributes) throws IOException {
-
+	
 		String name = file.getOriginalFilename();
 		String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
-
+	
 		String excel = "xlsx";
 		if (!extension.equals(excel)) {
 			viewOrders(model);
@@ -370,21 +370,21 @@ public class UDeliController {
 			long excelCount = 0;
 			try {
 				byte[] bytes = file.getBytes();
-
+	
 				// Creating the directory to store file
 				String rootPath = System.getProperty("catalina.home");
 				File dir = new File(rootPath + File.separator + "tmpFiles");
 				if (!dir.exists())
 					dir.mkdirs();
-
+	
 				// Create the file on server
 				File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
-
+	
 				System.out.println("Server File Location=" + serverFile.getAbsolutePath());
-
+	
 				File file1 = new File(serverFile.getAbsolutePath());
 				System.out.println("get server file name in the file========" + file1);
 				FileInputStream excelFile = new FileInputStream(new File(serverFile.getAbsolutePath()));
@@ -393,7 +393,7 @@ public class UDeliController {
 				Iterator<Row> iterator = datatypeSheet.iterator();
 				Cell currentCell = null;
 				List orderList = null;
-
+	
 				while (iterator.hasNext()) {
 					Row currentRow = iterator.next();
 					Iterator<Cell> cellIterator = currentRow.iterator();
@@ -430,11 +430,11 @@ public class UDeliController {
 								System.out.println();
 								break;
 							}
-
+	
 						}
-
+	
 					}
-
+	
 					System.out.println(excelCount);
 					if (excelCount != 0) {
 						orderdetails.setOrdertitle(orderList.get(0).toString());
@@ -458,7 +458,7 @@ public class UDeliController {
 						long millis = date1.getTime();
 						Timestamp ts = new Timestamp(millis);
 						orderdetails.setPreferreddeliverytime(ts);
-						orderdetails.setStoretocustlocation(10f);
+						/*orderdetails.setStoretocustlocation(10f);*/
 						System.out.println("Order List Details=======" + orderList);
 						udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
 					}
@@ -467,10 +467,10 @@ public class UDeliController {
 					orderList = null;
 					System.out.println();
 				}
-
+	
 			} catch (Exception e) {
 				System.out.println("catch block details" + e.getMessage());
-
+	
 			}
 			viewOrders(model);
 			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", excelCount + " Orders Uploaded Successfully ");
@@ -483,29 +483,48 @@ public class UDeliController {
 	}
 	
 	@RequestMapping(value = "/orgDetails", method = RequestMethod.GET)
-	public String orgDetails(HttpServletRequest request, Model model, GlympseDetails glympseDetails) {
-		System.out.println(glympseDetails + "==========Start Add org details======================"
-				+ userDetailsList.get(0).getMerchantid());
-		model.addAttribute("glympseDetails", glympseDetails);
+	public String orgDetails(HttpServletRequest request, Model model, ProfileDetails profileDetails) {
+
+		//int merchantid = Integer.parseInt(request.getParameter("userDetailsList.get(0).getMerchantid()"));
+		List<ProfileDetails> profileDetailsList = udeliRepo.editOrgDetails(userDetailsList.get(0).getMerchantid());
+		
+		profileDetails.setAddress(profileDetailsList.get(0).getAddress());
+		profileDetails.setState(profileDetailsList.get(0).getState());
+		profileDetails.setCity(profileDetailsList.get(0).getCity());
+		profileDetails.setZip(profileDetailsList.get(0).getZip());
+		profileDetails.setPhonenumber(profileDetailsList.get(0).getPhonenumber());
+		profileDetails.setFirstname(profileDetailsList.get(0).getFirstname());
+		profileDetails.setLastname(profileDetailsList.get(0).getLastname());
+		profileDetails.setEmail(profileDetailsList.get(0).getEmail());
+		profileDetails.setUsername(profileDetailsList.get(0).getUsername());
+		profileDetails.setPlaintextpass(profileDetailsList.get(0).getPlaintextpass());
+		profileDetails.setDeliveryhours(profileDetailsList.get(0).getDeliveryhours());
+		profileDetails.setGlympseorgid(profileDetailsList.get(0).getGlympseorgid());
+		profileDetails.setGlympseusername(profileDetailsList.get(0).getGlympseusername());
+		profileDetails.setGlympsepassword(profileDetailsList.get(0).getGlympsepassword());
+		profileDetails.setOffsethours(profileDetailsList.get(0).getOffsethours());
+		model.addAttribute("profileDetailsList", profileDetailsList);
 		return "orgDetails";
 	}
 
-	@RequestMapping(value = "/orgDetails", params = "submit", method = RequestMethod.POST)
-	public ModelAndView addOrgDetails(HttpServletRequest request, Model model, GlympseDetails glympseDetails,
+	@RequestMapping(value = "/orgDetails", params = "save", method = RequestMethod.POST)
+	public ModelAndView addOrgDetails(HttpServletRequest request, Model model, MerchantDetails merchantdetails,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-		System.out.println("==========Save Add Orders details======================"+ userDetailsList.get(0).getMerchantid());
 		if (bindingResult.hasErrors()) {
 			redirectTo = "orgDetails";
 		} else{
-			System.out.println("id======="+ glympseDetails.getGlympseorgid() +"username========="+glympseDetails.getGlympseusername()+"password==========="+glympseDetails.getGlympsepassword());
-			udeliRepo.orgDetails(glympseDetails, userDetailsList.get(0).getMerchantid());
-//			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Order inserted Successfully");
+			udeliRepo.orgData(merchantdetails, userDetailsList.get(0).getMerchantid());
+		redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", merchantdetails.getGlympseusername()+" updated Successfully");
 		}
-			/*udeliRepo.orgDetails(glympseDetails, userDetailsList.get(0).getMerchantid());*/
 
-		System.out.println("==========End Add org details======================");
-		model.addAttribute("glympseDetails", glympseDetails);
+		model.addAttribute("glympseDetails", merchantdetails);
 		return new ModelAndView("redirect:/vieworders");
 	}
+	
+	// Cancel Org Details.
+		@RequestMapping(value = "/orgDetails", params = "cancel", method = RequestMethod.POST)
+		public ModelAndView cancelOrgDetails() {
+			return new ModelAndView("redirect:/vieworders");
+		}
 	
 }

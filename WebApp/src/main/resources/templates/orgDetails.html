@@ -16,59 +16,247 @@
 <style>
 .header {
 	background-color: lightgray;
-	    margin-bottom: 1%;
+	margin-bottom: 1%;
 }
 </style>
 </head>
 
 <body>
-	<form method="POST" th:object="${glympseDetails}" th:action="@{/orgDetails}">
+	<form method="POST" th:object="${profileDetails}" th:action="@{/orgDetails}">
 		<input class="form-control hidden" th:field="*{merchantid}" />
-		<div id="wrapper" class="animate">
 			<div class="container-fluid">
 				<div class="row ">
-					<div class=" col-sm-10 col-md-offset-1 panel panel-default"
-						style="border-style: ridge;">
+					<div class=" col-md-6 col-md-offset-3 panel panel-default"
+						style="border-style: ridge; background-color: #efebe9;">
 						<div class="col">
 							<div class="card">
 								<div class="card-body panel-heading">
-									<div class="col-lg-12 header" align="center">
-										<h4 class="card-title">Org Details</h4>
+									<div class="col-md-12 header">
+										<h4 class="card-title">Profile Settings</h4>
 									</div>
 
 									<div class="form-row">
-										<div class="form-group col-md-4">
-											<label for="name">Org ID</label> 
-											<input	class="form-control input-md" placeholder="Org ID" th:field="*{glympseorgid}" />
-											<label th:if="${#fields.hasErrors('glympseorgid')}" class="text-danger" th:errors="*{glympseorgid}"></label>
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont" for="username">Merchant
+													Name</label>
+											</div>
+											<div class="col-md-4">
+												<label th:text="${userName}"></label>
+											</div>
 										</div>
-										<div class="form-group col-md-4">
-											<label for="phonenumber">Org Username</label> 
-											<input class="form-control input-md" placeholder="Org Username" th:field="*{glympseusername}" /> 
-											<label th:if="${#fields.hasErrors('glympseusername')}" class="text-danger" th:errors="*{glympseusername}"></label>
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="firstname">Name</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="FirstName" th:field="*{firstname}" /> <label
+													th:if="${#fields.hasErrors('firstname')}"
+													class="text-danger" th:errors="*{firstname}"></label>
+											</div>
+
+											<!-- <div class="row voffset1">
+		 										 <div class="col-md-2">
+		 									    	<label  class = "labelfont" for="lastname">Last Name</label>
+											   	 </div> -->
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="LastName" th:field="*{lastname}" /> <label
+													th:if="${#fields.hasErrors('lastname')}"
+													class="text-danger" th:errors="*{lastname}"></label>
+											</div>
 										</div>
-										<div class="form-group col-md-4">
-											<label for="email">Org Password</label> 
-											<input class="form-control input-md" placeholder="Org Password" th:field="*{glympsepassword}" />
-											<label	th:if="${#fields.hasErrors('glympsepassword')}" class="text-danger" th:errors="*{glympsepassword}"></label>
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="phonenumber">Phone
+													Number</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="PhoneNumber" th:field="*{phonenumber}" />
+												<label th:if="${#fields.hasErrors('phonenumber')}"
+													class="text-danger" th:errors="*{phonenumber}"></label>
+											</div>
 										</div>
+
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="email">Email</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md" placeholder="Email"
+													th:field="*{email}" /> <label
+													th:if="${#fields.hasErrors('email')}" class="text-danger"
+													th:errors="*{email}"></label>
+											</div>
+										</div>
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="username">User
+													Credentials</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="UserName" th:field="*{username}" /> <label
+													th:if="${#fields.hasErrors('username')}"
+													class="text-danger" th:errors="*{username}"></label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md" 
+													placeholder="Password" th:field="*{plaintextpass}" /> <label
+													th:if="${#fields.hasErrors('plaintextpass')}"
+													class="text-danger" th:errors="*{plaintextpass}"></label>
+											</div>
+										</div>
+
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="deliveryhours">Delivery
+													Hours</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="DeliveryHours" th:field="*{deliveryhours}" />
+												<label th:if="${#fields.hasErrors('deliveryhours')}"
+													class="text-danger" th:errors="*{deliveryhours}"></label>
+											</div>
+										</div>
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="address">Physical Address</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="Address" th:field="*{address}" /> <label
+													th:if="${#fields.hasErrors('address')}" class="text-danger"
+													th:errors="*{address}"></label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md" placeholder="City"
+													th:field="*{city}" /> <label
+													th:if="${#fields.hasErrors('city')}" class="text-danger"
+													th:errors="*{city}"></label>
+											</div>
+										</div>
+										<div class="row voffset1">
+											<div class="col-md-3"></div>
+											<div class="col-md-4">
+												<input class="form-control input-md" placeholder="State"
+													th:field="*{state}" /> <label
+													th:if="${#fields.hasErrors('state')}" class="text-danger"
+													th:errors="*{state}"></label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md" placeholder="Zip"
+													th:field="*{zip}" /> <label
+													th:if="${#fields.hasErrors('zip')}" class="text-danger"
+													th:errors="*{zip}"></label>
+											</div>
+										</div>
+
+										<hr>
+										<div class="col-md-12 header">
+											<h4 class="card-title">Notification Settings</h4>
+										</div>
+										
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="glympseorgid">Org ID</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="PhoneNumber" th:field="*{glympseorgid}" />
+												<label th:if="${#fields.hasErrors('glympseorgid')}"
+													class="text-danger" th:errors="glympseorgid"></label>
+											</div>
+										</div>
+
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="glympseusername">Org Username</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md" placeholder="glympseusername"
+													th:field="*{glympseusername}" /> <label
+													th:if="${#fields.hasErrors('glympseusername')}" class="text-danger"
+													th:errors="glympseusername"></label>
+											</div>
+										</div>
+										
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="glympsepassword">Org Password</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md"
+													placeholder="PhoneNumber" th:field="*{glympsepassword}" />
+												<label th:if="${#fields.hasErrors('glympsepassword')}"
+													class="text-danger" th:errors="glympsepassword"></label>
+											</div>
+										</div>
+
+										<div class="row voffset1">
+											<div class="col-md-3 text-right">
+												<label class="labelfont label-profile" for="offsethours">Orders Active hours</label>
+											</div>
+											<div class="col-md-4">
+												<input class="form-control input-md" placeholder="offsethours"
+													th:field="*{offsethours}" /> <label
+													th:if="${#fields.hasErrors('offsethours')}" class="text-danger"
+													th:errors="*{offsethours}"></label>
+											</div>
+										</div>
+										<!-- <div class="form-row">
+											<div class="form-group col-md-4">
+												<label for="name">Org ID</label> <input
+													class="form-control input-md" placeholder="Org ID"
+													th:field="*{glympseorgid}" /> <label
+													th:if="${#fields.hasErrors('glympseorgid')}"
+													class="text-danger" th:errors="*{glympseorgid}"></label>
+											</div>
+											<div class="form-group col-md-4">
+												<label for="phonenumber">Org Username</label> <input
+													class="form-control input-md" placeholder="Org Username"
+													th:field="*{glympseusername}" /> <label
+													th:if="${#fields.hasErrors('glympseusername')}"
+													class="text-danger" th:errors="*{glympseusername}"></label>
+											</div>
+											<div class="form-group col-md-4">
+												<label for="email">Org Password</label> <input
+													class="form-control input-md" placeholder="Org Password"
+													th:field="*{glympsepassword}" /> <label
+													th:if="${#fields.hasErrors('glympsepassword')}"
+													class="text-danger" th:errors="*{glympsepassword}"></label>
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col-md-4">
+												<label for="name">Orders Active hours</label> <input
+													class="form-control input-md" placeholder="Active hours"
+													th:field="*{offsethours}" /> <label
+													th:if="${#fields.hasErrors('offsethours')}"
+													class="text-danger" th:errors="*{offsethours}"></label>
+											</div>
+										</div> -->
+
+
+
+										<div class="row btnOffset">
+											<div class="col-md-12" align="center">
+												<input class="btn btn-primary  btn-md" type="submit"
+													name="save" value="SAVE" /> <input
+													class="btn btn-primary  btn-md" type="submit" name="cancel"
+													value="CANCEL" />
+											</div>
+										</div>
+
 									</div>
-
-
-
-									<div class="row btnOffset">
-										<div class="col-lg-12" align="center">
-											<input class="btn btn-primary  btn-sm" type="submit" name="submit" value="submit" /> 
-										</div>
-									</div>
-
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
 	</form>
 </html>

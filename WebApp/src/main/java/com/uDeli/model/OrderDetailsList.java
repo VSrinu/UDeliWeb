@@ -41,14 +41,16 @@ public class OrderDetailsList {
     private Integer perishable;
     private Float totalweight;
     private Integer fragile;
-    private Timestamp preferreddeliverytime; 
+    private String pref_date; 
+	private String acce_date; 
+    private String deli_date; 
     private String stutes_text;
     private Float storetocustlocation;
     private String carrier_name;
     
     public OrderDetailsList(Integer orderid, String ordertitle, String customername, String Address, String phonenumber, String email, Integer numberofbags,
-    				Integer totalitems, Integer perishable, Float totalweight, Integer fragile, Timestamp preferreddeliverytime, String stutes_text,
-    				Float storetocustlocation, String carrier_name) {
+    				Integer totalitems, Integer perishable, Float totalweight, Integer fragile, String pref_date, String acce_date,
+    				String deli_date, String stutes_text, Float storetocustlocation, String carrier_name) {
 		super();
 		this.orderid = orderid;
 		this.ordertitle = ordertitle;
@@ -61,7 +63,9 @@ public class OrderDetailsList {
 		this.perishable = perishable;
 		this.totalweight = totalweight;
 		this.fragile = fragile;
-		this.preferreddeliverytime = preferreddeliverytime;
+		this.pref_date = pref_date;
+		this.acce_date = acce_date;
+		this.deli_date = deli_date;
 		this.stutes_text = stutes_text;
 		this.storetocustlocation = storetocustlocation;
 		this.carrier_name = carrier_name;
@@ -156,14 +160,6 @@ public class OrderDetailsList {
 		this.fragile = fragile;
 	}
 
-	public Timestamp getPreferreddeliverytime() {
-		return preferreddeliverytime;
-	}
-
-	public void setPreferreddeliverytime(Timestamp preferreddeliverytime) {
-		this.preferreddeliverytime = preferreddeliverytime;
-	}
-
 	public String getStutes_text() {
 		return stutes_text;
 	}
@@ -187,5 +183,29 @@ public class OrderDetailsList {
 	public void setCarrier_name(String carrier_name) {
 		this.carrier_name = carrier_name;
 	}
-    
+
+	public String getPref_date() {
+		return pref_date;
+	}
+
+	public void setPref_date(String pref_date) {
+		this.pref_date = pref_date;
+	}
+
+	public String getAcce_date() {
+		return acce_date;
+	}
+
+	public void setAcce_date(String acce_date) {
+		this.acce_date = acce_date;
+	}
+
+	public String getDeli_date() {
+		return deli_date;
+	}
+
+	public void setDeli_date(String deli_date) {
+		this.deli_date = deli_date;
+	}
+	
 }

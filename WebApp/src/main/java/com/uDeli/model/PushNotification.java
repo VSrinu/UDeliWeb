@@ -1,14 +1,15 @@
 package com.uDeli.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tOrders") 
+@Table(name = "tOrderToCarriers") 
 		@NamedStoredProcedureQueries({
-		@NamedStoredProcedureQuery(name = "getDeviceDetails",procedureName = "pgetDeviceDetails",resultClasses = OrderDetails.class)
+		@NamedStoredProcedureQuery(name = "getDeviceDetails",procedureName = "pgetDeviceDetails",resultClasses = PushNotification.class)
 })
 
 public class PushNotification {
@@ -16,26 +17,37 @@ public class PushNotification {
 	public PushNotification() {
 	}
 	
+	@Id
+	private Integer carrierid;
 	private Integer orderid;
-	private Integer merchantid;
+	private String name;
 	private String ordertitle;
 	private String orderdetails;
 	private String devicetoken;
-	private String message;
-	private String type;
-	private Integer status_notification;
+	/*private String message;
+	private String type;*/
+	/*private Integer status_notification;*/
 	
-	public PushNotification(Integer orderid, Integer merchantid, String ordertitle, String orderdetails, String devicetoken, 
-			String message, String type, Integer status_notification) {
+	public PushNotification(Integer carrierid, Integer orderid, String name, String ordertitle, String orderdetails, String devicetoken) {
 		super();
 		
+		this.carrierid = carrierid;
 		this.orderid = orderid;
-		this.merchantid = merchantid;
+		this.name = name;
 		this.ordertitle = ordertitle;
 		this.orderdetails = orderdetails;
-		this.message = message;
-		this.type = type;
-		this.status_notification = status_notification;
+		this.devicetoken = devicetoken;
+		/*this.message = message;
+		this.type = type;*/
+		/*this.status_notification = status_notification;*/
+	}
+
+	public Integer getCarrierid() {
+		return carrierid;
+	}
+
+	public void setCarrierid(Integer carrierid) {
+		this.carrierid = carrierid;
 	}
 
 	public Integer getOrderid() {
@@ -46,12 +58,12 @@ public class PushNotification {
 		this.orderid = orderid;
 	}
 
-	public Integer getMerchantid() {
-		return merchantid;
+	public String getName() {
+		return name;
 	}
 
-	public void setMerchantid(Integer merchantid) {
-		this.merchantid = merchantid;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getOrdertitle() {
@@ -78,7 +90,7 @@ public class PushNotification {
 		this.devicetoken = devicetoken;
 	}
 
-	public String getMessage() {
+	/*public String getMessage() {
 		return message;
 	}
 
@@ -92,14 +104,14 @@ public class PushNotification {
 
 	public void setType(String type) {
 		this.type = type;
-	}
+	}*/
 
-	public Integer getStatus_notification() {
+	/*public Integer getStatus_notification() {
 		return status_notification;
 	}
 
 	public void setStatus_notification(Integer status_notification) {
 		this.status_notification = status_notification;
-	}
+	}*/
 	
 }

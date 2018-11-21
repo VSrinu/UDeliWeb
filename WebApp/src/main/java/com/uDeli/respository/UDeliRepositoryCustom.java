@@ -9,6 +9,7 @@ import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
 import com.uDeli.model.OrderDetailsList;
 import com.uDeli.model.ProfileDetails;
+import com.uDeli.model.PushNotification;
 
 public interface UDeliRepositoryCustom{
    
@@ -51,5 +52,9 @@ public interface UDeliRepositoryCustom{
 	public void orgData(MerchantDetails merchantdetails, Integer merchantid);
 
 	public List<ProfileDetails> editOrgDetails(Integer merchantid);
+	
+	public List<PushNotification> notification();
+
+	
 
 }

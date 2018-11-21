@@ -31,8 +31,10 @@ public class CarrierDetails {
 	private String emailid;
 	private String phonenumber;
 	private Character active;
+	/*private String merchantName;*/
+	private String devicetoken;
 	
-	public CarrierDetails(String id, Integer carrierid, String name, String address, String emailid, String phonenumber, Integer merchantid, Character active) {
+	public CarrierDetails(String id, Integer carrierid, String name, String address, String emailid, String phonenumber, Integer merchantid, Character active, String devicetoken) {
 		super();
 		this.id = id;
 		this.carrierid = carrierid;
@@ -42,10 +44,21 @@ public class CarrierDetails {
 		this.phonenumber = phonenumber;
 		this.merchantid = merchantid;
 		this.active = active;
-		
+		/*this.merchantName = merchantName;*/
+		this.devicetoken = devicetoken;
 	}
 	
 	
+	public String getDevicetoken() {
+		return devicetoken;
+	}
+
+
+	public void setDevicetoken(String devicetoken) {
+		this.devicetoken = devicetoken;
+	}
+
+
 	public String getId() {
 		return id;
 	}
@@ -124,6 +137,16 @@ public class CarrierDetails {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
+	/*public String getMerchantName() {
+		return merchantName;
+	}
+
+
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}*/
 
 
 }

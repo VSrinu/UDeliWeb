@@ -1,5 +1,5 @@
 .header{
-	background-color: #e8e8e8;
+	background-color: #000;
 	color:#fff;
 	padding: 1%;
 	text-align: center;
@@ -13,7 +13,7 @@ header{
 }
 
 footer{
-	background-color: #333;
+	background-color: #000;
 	height: 10vh;
 	color:#fff;
 	padding: 0;
@@ -41,7 +41,7 @@ footer{
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
-    background-color: #666666;
+    background-color: #000000;
 }
 
 .dropdown-content {
@@ -74,4 +74,7 @@ footer{
     margin-bottom: 10px;
     border: 0;
     border-top: 1px solid black;
+}
+h4{
+	color:#f1152b;
 }

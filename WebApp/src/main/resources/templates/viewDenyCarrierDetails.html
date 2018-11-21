@@ -173,7 +173,7 @@ $(document).ready(function(){
 													<td class="txtfont" th:text="${carriersList.emailid}"></td>
 													<td class="txtfont" th:text="${carriersList.phonenumber}"></td>
 													<td class="txtfont"><a
-														th:href="@{'/approvedenyedcarrier?carrierid='+ ${carriersList.carrierid} + '&active='+ ${1}}">
+														th:href="@{'/approvedenyedcarrier?carrierid='+ ${carriersList.carrierid} + '&active='+ ${1} + '&devicetoken='+ ${carriersList.devicetoken}}">
 															Approve </a></td>
 												</tr>
 												</tbody>

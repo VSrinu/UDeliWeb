@@ -3,7 +3,7 @@
 }
 
 body {
-    background-color: #dedede;
+    background-color: #000;
 }
 
 h2{
@@ -15,7 +15,7 @@ h3{
 }
   
 .jumbotron { 
- background-color:#E0FCB6;
+ background-color:#f1152b;
 }
  
 .jumbotron h1 { 
@@ -28,7 +28,7 @@ font-family:'Shift', sans-serif;
 .jumbotron a { 
 font-size:20px;
 font-weight:bold; 
-font-color:#000000;
+font-color:#f1152b;
 font-family:'Shift', sans-serif;
 }
 
@@ -58,7 +58,7 @@ font-family:'Shift', sans-serif;
 }
 
 .navbar-custom {
-    background-color: #E0FCB6; 
+    background-color: #4a4a4a; 
 }
 hr { 
     display: block;
@@ -71,4 +71,7 @@ hr {
 } 
 .label-profile{
 	margin-top: 5px;
+}
+.nav>li>a:focus, .nav>li>a:hover {
+    background-color: #000 !important;
 }

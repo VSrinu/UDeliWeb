@@ -15,6 +15,7 @@ import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
 import com.uDeli.model.OrderDetailsList;
 import com.uDeli.model.ProfileDetails;
+import com.uDeli.model.PushNotification;
 import com.uDeli.utils.UDeliConstants;
 
 public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
@@ -396,7 +397,6 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 	}	
 	
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<ProfileDetails> editOrgDetails(Integer merchantid){
 		StoredProcedureQuery spQuery = em.createNamedStoredProcedureQuery("getprofiledetails");
 			spQuery.registerStoredProcedureParameter(0, Integer.class, ParameterMode.IN);
@@ -406,27 +406,11 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		
 	}
 	
-	/*@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public List<PushNotification> notification(){
 		StoredProcedureQuery spQuery = em.createNamedStoredProcedureQuery("getDeviceDetails");
-			List<PushNotification> pushNotification = spQuery.getResultList();
-			return pushNotification;
+		System.out.println(spQuery);
+		List<PushNotification> pushNotification = spQuery.getResultList();
+		return pushNotification;
 	}
-	*/
-	/*@Autowired
-    private AppProperties appProperties;
-
-    public void post(APNsContent apNsContent) {
-        
-        ApnsService service =
-                APNS.newService()
-                        .withCert(cert, LGConstants.P12_CERTIFICATES_BETA_PWD)
-                        .withProductionDestination()
-                        .build();
-        String payload = APNS.newPayload().alertBody(apNsContent.getMessage()).build();
-        String token = apNsContent.getDeviceuid();
-        service.push(token, payload);
-        log.debug("APNS  end");
-    }*/
-	
 	}

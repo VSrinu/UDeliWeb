@@ -5,12 +5,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,6 +26,10 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +42,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.notnoop.apns.APNS;
+import com.notnoop.apns.ApnsService;
 import com.uDeli.model.CarrierDetails;
 import com.uDeli.model.GetUserProfile;
 import com.uDeli.model.MerchantDetails;
@@ -43,20 +51,27 @@ import com.uDeli.model.NewOrderDetailsList;
 import com.uDeli.model.OrderDetails;
 import com.uDeli.model.OrderDetailsList;
 import com.uDeli.model.ProfileDetails;
+import com.uDeli.model.PushNotification;
 import com.uDeli.respository.UDeliRepository;
 
 @Controller
+@Component
+@Configuration
+//@EnableScheduling
 @SessionAttributes("userName")
 public class UDeliController {
 
 	@Autowired
 	UDeliRepository udeliRepo;
-
+	String devicetoken = null;
+	String message = " ";
 	List<GetUserProfile> userDetailsList = null;
 	List<MerchantDetails> merchantList = null;
 	List<CarrierDetails> carriersList = null;
 	List<OrderDetailsList> ordersList = null;
 	List<NewOrderDetailsList> newOrdersList = null;
+	List<PushNotification> notificationList = null;
+	ApnsService service = null;
 	/* List<OrderDetails> orderDetails = null; */
 	String redirectTo = "";
 
@@ -229,7 +244,15 @@ public class UDeliController {
 	public ModelAndView requestCarrier(HttpServletRequest request, CarrierDetails carrierDetails) {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
 		int active = Integer.parseInt(request.getParameter("active"));
+		devicetoken = request.getParameter("devicetoken");
+		if(active == 0) {
+			message = "Merchant has Denayed you Request";
+		}
+		else if(active == 1) {
+			message = "Merchant has Apprived you Request";
+		}
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
+		notification();
 		return new ModelAndView("redirect:/viewCarrierDetails");
 	}
 
@@ -237,7 +260,13 @@ public class UDeliController {
 	public ModelAndView approveCarrier(HttpServletRequest request, CarrierDetails carrierDetails) {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
 		int active = Integer.parseInt(request.getParameter("active"));
+		devicetoken = request.getParameter("devicetoken");
+		if(active == 0) {
+			message = "Merchant has Denayed you Request";
+		}
+		System.out.println(devicetoken);
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
+		notification();
 		return new ModelAndView("redirect:/viewApproveCarrierDetails");
 
 	}
@@ -246,7 +275,12 @@ public class UDeliController {
 	public ModelAndView denyCarrier(HttpServletRequest request, CarrierDetails carrierDetails) {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
 		int active = Integer.parseInt(request.getParameter("active"));
+		devicetoken = request.getParameter("devicetoken");
+		if(active == 1) {
+			message = "Merchant has Appovred you Request";
+		}
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
+		notification();
 		return new ModelAndView("redirect:/viewDenyCarrierDetails");
 	}
 
@@ -277,6 +311,7 @@ public class UDeliController {
 		System.out.println(orderdetails + "==========Start Add Orders details======================"
 				+ userDetailsList.get(0).getMerchantid());
 		model.addAttribute("orderdetails", orderdetails);
+		/*notification(new PushNotification());*/
 		return "addorders";
 	}
 
@@ -526,5 +561,40 @@ public class UDeliController {
 		public ModelAndView cancelOrgDetails() {
 			return new ModelAndView("redirect:/vieworders");
 		}
-	
+		
+		@Scheduled(cron = "*/10 * * * * *")
+		public ModelAndView notification() {
+			
+			/*notificationList = udeliRepo.notification();
+			if(notificationList.size() > 0){
+				for(PushNotification pushNotification1 : notificationList) {
+					
+					for(int index=0; notificationList.size() > index; index++) {
+					
+					PushNotification pnf = (PushNotification)notificationList.get(index);*/
+			 String title="New Order Request";
+			 System.out.println("Sending an iOS push notification…");
+			 InputStream cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/appleBeta.p12");
+			 ApnsService service = APNS.newService()
+			 .withCert(cert, "arxtlabs")
+			 .withSandboxDestination()
+			 .build(); 
+			 
+			 String payload = APNS.newPayload()
+			 .alertBody(message)
+			 .alertTitle(title).build();
+			 
+			 String token = devicetoken;
+			 
+			 System.out.println("payload: "+payload);
+			 
+			 service.push(token, payload);
+				/*	}	
+				}
+				
+			
+		}*/
+			return new ModelAndView("redirect:/vieworders");
+	 
+}
 }

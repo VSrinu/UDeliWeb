@@ -246,13 +246,13 @@ public class UDeliController {
 		int active = Integer.parseInt(request.getParameter("active"));
 		devicetoken = request.getParameter("devicetoken");
 		if(active == 0) {
-			message = "Merchant has Denayed you Request";
+			message = "Sorry, Merchant has Denied your Request you can't get the orders for delivery";
 		}
 		else if(active == 1) {
-			message = "Merchant has Apprived you Request";
+			message = "Merchant has Apprived you are eligible to get new delivery orders";
 		}
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
-		notification();
+		requestNotification();
 		return new ModelAndView("redirect:/viewCarrierDetails");
 	}
 
@@ -262,11 +262,11 @@ public class UDeliController {
 		int active = Integer.parseInt(request.getParameter("active"));
 		devicetoken = request.getParameter("devicetoken");
 		if(active == 0) {
-			message = "Merchant has Denayed you Request";
+			message = "Sorry, Merchant has Denied your Request you can't get the orders for delivery";
 		}
 		System.out.println(devicetoken);
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
-		notification();
+		requestNotification();
 		return new ModelAndView("redirect:/viewApproveCarrierDetails");
 
 	}
@@ -277,10 +277,10 @@ public class UDeliController {
 		int active = Integer.parseInt(request.getParameter("active"));
 		devicetoken = request.getParameter("devicetoken");
 		if(active == 1) {
-			message = "Merchant has Appovred you Request";
+			message = "Merchant has Apprived you are eligible to get new delivery orders";
 		}
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
-		notification();
+		requestNotification();
 		return new ModelAndView("redirect:/viewDenyCarrierDetails");
 	}
 
@@ -562,19 +562,43 @@ public class UDeliController {
 			return new ModelAndView("redirect:/vieworders");
 		}
 		
-		@Scheduled(cron = "*/10 * * * * *")
-		public ModelAndView notification() {
-			
-			/*notificationList = udeliRepo.notification();
+		@Scheduled(cron = "*/60 * * * * *")
+		public void notification() {
+			System.out.println("notification" + new Date());
+			notificationList = udeliRepo.notification();
+			System.out.println("Notification details"+notificationList);
 			if(notificationList.size() > 0){
-				for(PushNotification pushNotification1 : notificationList) {
+				//for(PushNotification pushNotification1 : notificationList) {
 					
 					for(int index=0; notificationList.size() > index; index++) {
-					
-					PushNotification pnf = (PushNotification)notificationList.get(index);*/
+					PushNotification pnf = (PushNotification)notificationList.get(index);
 			 String title="New Order Request";
 			 System.out.println("Sending an iOS push notification…");
-			 InputStream cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/appleBeta.p12");
+			 InputStream cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/applePushServices.p12");
+			 ApnsService service = APNS.newService()
+			 .withCert(cert, "arxtlabs")
+			 .withSandboxDestination()
+			 .build(); 
+			 
+			 String payload = APNS.newPayload()
+			 .alertBody("Mearchant "+pnf.getName() +" "+"got a delivery order"+" "+pnf.getOrdertitle())
+			 .alertTitle(title).build();
+			 
+			 String token = pnf.getDevicetoken();
+			 System.out.println("payload: "+payload);
+			 
+			 service.push(token, payload);
+				udeliRepo.updateNotificatioStatus(token);
+				}	
+			}
+					 
+		}
+		
+		public void requestNotification() {
+			
+			 String title="Carrier Request";
+			 System.out.println("Sending an iOS push notification…");
+			 InputStream cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/applePushServices.p12");
 			 ApnsService service = APNS.newService()
 			 .withCert(cert, "arxtlabs")
 			 .withSandboxDestination()
@@ -583,18 +607,12 @@ public class UDeliController {
 			 String payload = APNS.newPayload()
 			 .alertBody(message)
 			 .alertTitle(title).build();
-			 
+			
 			 String token = devicetoken;
-			 
 			 System.out.println("payload: "+payload);
 			 
 			 service.push(token, payload);
-				/*	}	
-				}
-				
-			
-		}*/
-			return new ModelAndView("redirect:/vieworders");
-	 
-}
+			 
+				}	
+
 }

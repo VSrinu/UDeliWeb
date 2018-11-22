@@ -55,6 +55,6 @@ public interface UDeliRepositoryCustom{
 	
 	public List<PushNotification> notification();
 
-	
+	public void updateNotificatioStatus(String devicetoken);
 
 }

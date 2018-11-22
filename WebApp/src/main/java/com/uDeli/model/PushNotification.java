@@ -9,7 +9,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tOrderToCarriers") 
 		@NamedStoredProcedureQueries({
-		@NamedStoredProcedureQuery(name = "getDeviceDetails",procedureName = "pgetDeviceDetails",resultClasses = PushNotification.class)
+		@NamedStoredProcedureQuery(name = "getDeviceDetails",procedureName = "pgetDeviceDetails",resultClasses = PushNotification.class),
+		@NamedStoredProcedureQuery(name = "updateOrderNotification",procedureName = "pupdateOrderNotification",resultClasses = PushNotification.class)
 })
 
 public class PushNotification {

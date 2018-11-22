@@ -409,8 +409,15 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 	@SuppressWarnings("unchecked")
 	public List<PushNotification> notification(){
 		StoredProcedureQuery spQuery = em.createNamedStoredProcedureQuery("getDeviceDetails");
-		System.out.println(spQuery);
 		List<PushNotification> pushNotification = spQuery.getResultList();
 		return pushNotification;
 	}
+	
+	@Override
+	public void updateNotificatioStatus(String devicetoken) {
+		spQuery =  em.createNamedStoredProcedureQuery("updateOrderNotification");
+		spQuery.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
+		spQuery.setParameter(0,devicetoken); 
+		boolean s = spQuery.execute();
+	}	
 	}

@@ -17,9 +17,7 @@ import com.uDeli.model.FileStorageProperties;
 @EnableScheduling
 public class UDeliWebAppApplication {
 
-	/*@SuppressWarnings("resource")*/
 	public static void main(String[] args) {
 		SpringApplication.run(UDeliWebAppApplication.class, args);
-		/*new ClassPathXmlApplicationContext("Spring-Module-TaskSchedular.xml");*/
 	}
 }

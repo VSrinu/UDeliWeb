@@ -6,7 +6,7 @@
 
 	<groupId>com.uDeli</groupId>
 	<artifactId>UDeliWebApp</artifactId>
-	<version>18.1.16</version>
+	<version>18.1.17</version>
 	<packaging>jar</packaging>
 
 	<name>UDeliWebApp</name>
@@ -79,11 +79,6 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.2.1</version>
-		</dependency> -->
 
 		<!-- https://mvnrepository.com/artifact/com.google.api-client/google-api-client -->
 		<dependency>

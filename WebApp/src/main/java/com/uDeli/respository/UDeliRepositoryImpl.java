@@ -32,7 +32,9 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		   StoredProcedureQuery spQuery =
 		              em.createNamedStoredProcedureQuery("getuserprofile");
 		   spQuery.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
-		   spQuery.registerStoredProcedureParameter(1, String.class, ParameterMode.IN); 
+		   spQuery.registerStoredProcedureParameter(1, String.class, ParameterMode.IN);
+		   System.out.println("get username" + getuserprofile.getUsername());
+		   System.out.println("get username" + getuserprofile.getPlaintextpass());
 		   spQuery.setParameter(0,getuserprofile.getUsername());
 		   spQuery.setParameter(1,getuserprofile.getPlaintextpass());
 		   List<GetUserProfile> userDetailsList = spQuery.getResultList(); 
@@ -382,9 +384,9 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		spQuery.setParameter(9,merchantdetails.getUsername()); 
 		spQuery.setParameter(10,merchantdetails.getPlaintextpass()); 
 		spQuery.setParameter(11,merchantdetails.getGlympseorgid());
-		spQuery.setParameter(12,merchantdetails.getGlympseusername());
+		/*spQuery.setParameter(12,merchantdetails.getGlympseusername());
 		spQuery.setParameter(13,merchantdetails.getGlympsepassword());
-		spQuery.setParameter(14,merchantdetails.getOffsethours());
+		spQuery.setParameter(14,merchantdetails.getOffsethours());*/
 		spQuery.setParameter(15,merchantid);  
 		boolean s = spQuery.execute();
 		}
@@ -419,5 +421,20 @@ public class UDeliRepositoryImpl implements UDeliRepositoryCustom{
 		spQuery.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
 		spQuery.setParameter(0,devicetoken); 
 		boolean s = spQuery.execute();
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CarrierDetails> newCarriers(){
+		   StoredProcedureQuery spQuery = em.createNamedStoredProcedureQuery("newCarriers");
+		   List<CarrierDetails> newcarriers = spQuery.getResultList();
+		   return newcarriers;
+	} 
+	
+	@Override
+	public void updateNewCarriers(String devicetoken) {
+		spQuery =  em.createNamedStoredProcedureQuery("updateNewCarriers");
+		spQuery.registerStoredProcedureParameter(0, String.class, ParameterMode.IN);
+		spQuery.setParameter(0,devicetoken); 
+		boolean s = spQuery.execute();
+	}
 	}

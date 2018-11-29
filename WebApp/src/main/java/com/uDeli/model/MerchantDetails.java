@@ -50,13 +50,13 @@ public class MerchantDetails {
 	@Column(name="name")
 	private String name;
 	
-	@NotBlank(message="GlympseorgID cannot be blank.")
+	//@NotBlank(message="GlympseorgID cannot be blank.")
 	@Column(name="glympseorgid")
 	private Integer glympseorgid;
 	@Column(name="glympsekey")
 	private String glympsekey;
 	
-	@NotBlank(message="Glympseusername cannot be blank.")
+	/*@NotBlank(message="Glympseusername cannot be blank.")
 	@Column(name ="glympseusername")
 	private String glympseusername;
 	
@@ -66,7 +66,7 @@ public class MerchantDetails {
 	
 	@NotBlank(message="Offsethours cannot be blank.")
 	@Column(name ="offsethours")
-	private Integer offsethours;
+	private Integer offsethours;*/
 	
 	@NotBlank(message="Address cannot be blank")
 	private String address;
@@ -103,7 +103,7 @@ public class MerchantDetails {
 	    
     public MerchantDetails(Character usertype, String username, String plaintextpass, Integer merchantid,
 			String name, Integer glympseorgid, String glympsekey, String address, String city, String state, String zip,
-			String country, String phonenumber, String firstname, String lastname, String email, String glympseusername, String glympsepassword, Integer offsethours) {
+			String country, String phonenumber, String firstname, String lastname, String email, String description, String deliveryhours) {
 		super(); 
 		this.usertype = usertype;
 		this.username = username;
@@ -121,9 +121,11 @@ public class MerchantDetails {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;	 
-		this.glympseusername = glympseusername;
+		this.description = description;
+		this.deliveryhours = deliveryhours;
+		/*this.glympseusername = glympseusername;
 		this.glympsepassword =glympsepassword;
-		this.offsethours = offsethours;
+		this.offsethours = offsethours;*/
 	}	 
      
 	public Character getUsertype() {
@@ -273,7 +275,7 @@ public class MerchantDetails {
 		this.deliveryhours = deliveryhours;
 	}
 
-	public String getGlympseusername() {
+	/*public String getGlympseusername() {
 		return glympseusername;
 	}
 
@@ -288,12 +290,12 @@ public class MerchantDetails {
 	public void setGlympsepassword(String glympsepassword) {
 		this.glympsepassword = glympsepassword;
 	}
-
+	
 	public Integer getOffsethours() {
 		return offsethours;
 	}
 
 	public void setOffsethours(Integer offsethours) {
 		this.offsethours = offsethours;
-	} 
+	} */
 }

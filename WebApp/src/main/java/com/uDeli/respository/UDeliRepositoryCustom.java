@@ -56,5 +56,9 @@ public interface UDeliRepositoryCustom{
 	public List<PushNotification> notification();
 
 	public void updateNotificatioStatus(String devicetoken);
+	
+	public List<CarrierDetails> newCarriers();
+
+	public void updateNewCarriers(String devicetoken);
 
 }

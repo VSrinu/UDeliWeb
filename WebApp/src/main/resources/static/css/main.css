@@ -58,7 +58,7 @@ font-family:'Shift', sans-serif;
 }
 
 .navbar-custom {
-    background-color: #4a4a4a; 
+    background-color: #e6e2d3; 
 }
 hr { 
     display: block;
@@ -73,5 +73,10 @@ hr {
 	margin-top: 5px;
 }
 .nav>li>a:focus, .nav>li>a:hover {
-    background-color: #000 !important;
+    background-color: #c4b7a6 !important;
+}
+
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
 }

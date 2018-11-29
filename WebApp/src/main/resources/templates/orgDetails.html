@@ -22,7 +22,7 @@
 </head>
 
 <body>
-	<form method="POST" th:object="${profileDetails}" th:action="@{/orgDetails}">
+	<form name="orgDetails" method="POST" th:object="${profileDetails}" th:action="@{/orgDetails}">
 		<input class="form-control hidden" th:field="*{merchantid}" />
 			<div class="container-fluid">
 				<div class="row ">
@@ -103,13 +103,11 @@
 													class="text-danger" th:errors="*{username}"></label>
 											</div>
 											<div class="col-md-4">
-												<input class="form-control input-md" 
-													placeholder="Password" th:field="*{plaintextpass}" /> <label
-													th:if="${#fields.hasErrors('plaintextpass')}"
-													class="text-danger" th:errors="*{plaintextpass}"></label>
+												<input class="form-control input-md" type="password" name="plaintextpass" placeholder="Password" th:value="*{plaintextpass}"/> 
+												<label th:if="${#fields.hasErrors('plaintextpass')}" class="text-danger" th:errors="*{plaintextpass}" ></label>
 											</div>
 										</div>
-
+										
 										<div class="row voffset1">
 											<div class="col-md-3 text-right">
 												<label class="labelfont label-profile" for="deliveryhours">Delivery
@@ -189,8 +187,8 @@
 												<label class="labelfont label-profile" for="glympsepassword">Org Password</label>
 											</div>
 											<div class="col-md-4">
-												<input class="form-control input-md"
-													placeholder="PhoneNumber" th:field="*{glympsepassword}" />
+												<input class="form-control input-md" type="password"
+													placeholder="OrgPassword" th:value="*{glympsepassword}" />
 												<label th:if="${#fields.hasErrors('glympsepassword')}"
 													class="text-danger" th:errors="glympsepassword"></label>
 											</div>
@@ -260,4 +258,10 @@
 			</div>
 	</form>
 </body>
+<!-- <script>
+function demo(){
+	alert('hai');
+	document.orgDetails.plaintextpass.value="XXXXXXXXXXX";
+}
+</script> -->
 </html>

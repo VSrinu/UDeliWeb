@@ -19,7 +19,7 @@ public class PushNotification {
 	}
 	
 	@Id
-	private Integer carrierid;
+	//private Integer carrierid;
 	private Integer orderid;
 	private String name;
 	private String ordertitle;
@@ -29,10 +29,10 @@ public class PushNotification {
 	private String type;*/
 	/*private Integer status_notification;*/
 	
-	public PushNotification(Integer carrierid, Integer orderid, String name, String ordertitle, String orderdetails, String devicetoken) {
+	public PushNotification( Integer orderid, String name, String ordertitle, String orderdetails, String devicetoken) {
 		super();
 		
-		this.carrierid = carrierid;
+		//this.carrierid = carrierid;
 		this.orderid = orderid;
 		this.name = name;
 		this.ordertitle = ordertitle;
@@ -43,13 +43,13 @@ public class PushNotification {
 		/*this.status_notification = status_notification;*/
 	}
 
-	public Integer getCarrierid() {
+	/*public Integer getCarrierid() {
 		return carrierid;
 	}
 
 	public void setCarrierid(Integer carrierid) {
 		this.carrierid = carrierid;
-	}
+	}*/
 
 	public Integer getOrderid() {
 		return orderid;

@@ -42,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.notnoop.apns.APNS;
 import com.notnoop.apns.ApnsService;
 import com.uDeli.model.CarrierDetails;
@@ -65,12 +66,14 @@ public class UDeliController {
 	UDeliRepository udeliRepo;
 	String devicetoken = null;
 	String message = " ";
+	String title = " ";
 	List<GetUserProfile> userDetailsList = null;
 	List<MerchantDetails> merchantList = null;
 	List<CarrierDetails> carriersList = null;
 	List<OrderDetailsList> ordersList = null;
 	List<NewOrderDetailsList> newOrdersList = null;
 	List<PushNotification> notificationList = null;
+	List<CarrierDetails> newcarriers = null;
 	ApnsService service = null;
 	/* List<OrderDetails> orderDetails = null; */
 	String redirectTo = "";
@@ -128,7 +131,6 @@ public class UDeliController {
 			userDetailsList = udeliRepo.getUserProfile(getuserprofile);
 			model.addAttribute("userType", userDetailsList.get(0).getUsertype());
 			redirectAttributes.addFlashAttribute("userName", userDetailsList.get(0).getName());
-			System.out.println("User Name" + userDetailsList.get(0).getName());
 			if (userDetailsList != null && userDetailsList.size() > 0) {
 				if (userDetailsList.get(0).getUsertype().equals('a'))
 					redirectTo = "redirect:/viewmerchant";
@@ -159,11 +161,11 @@ public class UDeliController {
 			if (merchantdetails.getMerchantid() == null) {
 				System.out.println(" Insert New Record");
 				udeliRepo.insertMerchantDetails(merchantdetails, "insert");
-				redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Record inserted Successfully ");
+				redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", merchantdetails.getName() + " merchant record inserted Successfully ");
 			} else {
 				System.out.println(" Update existing Record");
 				udeliRepo.insertMerchantDetails(merchantdetails, "update");
-				redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", " Record updated Successfully ");
+				redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE",merchantdetails.getName() + " merchant record updated Successfully ");
 			}
 			redirectTo = "redirect:/viewmerchant";
 		}
@@ -245,11 +247,12 @@ public class UDeliController {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
 		int active = Integer.parseInt(request.getParameter("active"));
 		devicetoken = request.getParameter("devicetoken");
-		if(active == 0) {
-			message = "Sorry, Merchant has Denied your Request you can't get the orders for delivery";
-		}
-		else if(active == 1) {
-			message = "Merchant has Apprived you are eligible to get new delivery orders";
+		if (active == 0) {
+			title = "Carrier Request Not Approved";
+			message = "The Merchant is currently unable to approve your Request at this time. We will get back to you for more information, as necessary.";
+		} else if (active == 1) {
+			title = "Approved Carrier Request";
+			message = "Congratulations! The merchant has satisfactorily reviewed and approved your request. You can now receive jobs to you mobile device. Happy Delivering.";
 		}
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
 		requestNotification();
@@ -261,8 +264,9 @@ public class UDeliController {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
 		int active = Integer.parseInt(request.getParameter("active"));
 		devicetoken = request.getParameter("devicetoken");
-		if(active == 0) {
-			message = "Sorry, Merchant has Denied your Request you can't get the orders for delivery";
+		if (active == 0) {
+			title = "Carrier Request Not Approved";
+			message = "The Merchant is currently unable to approve your Request at this time. We will get back to you for more information, as necessary.";
 		}
 		System.out.println(devicetoken);
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
@@ -276,8 +280,9 @@ public class UDeliController {
 		int carrierid = Integer.parseInt(request.getParameter("carrierid"));
 		int active = Integer.parseInt(request.getParameter("active"));
 		devicetoken = request.getParameter("devicetoken");
-		if(active == 1) {
-			message = "Merchant has Apprived you are eligible to get new delivery orders";
+		if (active == 1) {
+			title = "Approved Carrier Request";
+			message = "Congratulations! The merchant has satisfactorily reviewed and approved your request. You can now receive jobs to you mobile device. Happy Delivering.";
 		}
 		udeliRepo.approveCarrier(carrierDetails, carrierid, active);
 		requestNotification();
@@ -311,7 +316,7 @@ public class UDeliController {
 		System.out.println(orderdetails + "==========Start Add Orders details======================"
 				+ userDetailsList.get(0).getMerchantid());
 		model.addAttribute("orderdetails", orderdetails);
-		/*notification(new PushNotification());*/
+		/* notification(new PushNotification()); */
 		return "addorders";
 	}
 
@@ -331,10 +336,12 @@ public class UDeliController {
 			redirectTo = "addorders";
 		} else if (orderdetails.getOrderid() == null) {
 			udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Order inserted Successfully");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE",
+					orderdetails.getOrdertitle() + " Order inserted Successfully");
 		} else {
 			udeliRepo.insertOrderDetails(orderdetails, "update", userDetailsList.get(0).getMerchantid());
-			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", orderdetails.getOrdertitle()+" Order updated Successfully");
+			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE",
+					orderdetails.getOrdertitle() + " Order updated Successfully");
 		}
 
 		System.out.println("==========End Add Orders details======================");
@@ -386,40 +393,39 @@ public class UDeliController {
 
 		return new ModelAndView("redirect:/vieworders");
 	}
-	
 
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model, OrderDetails orderdetails,
 			RedirectAttributes redirectAttributes) throws IOException {
-	
+
 		String name = file.getOriginalFilename();
 		String extension = name.substring(name.lastIndexOf(".") + 1, name.length());
-	
+
 		String excel = "xlsx";
 		if (!extension.equals(excel)) {
 			viewOrders(model);
 			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", "Please select .xlsx file to upload");
 			return "redirect:/vieworders";
-		}else if (!file.isEmpty()) {
+		} else if (!file.isEmpty()) {
 			System.out.println("file data details===========================" + name);
 			long excelCount = 0;
 			try {
 				byte[] bytes = file.getBytes();
-	
+
 				// Creating the directory to store file
 				String rootPath = System.getProperty("catalina.home");
 				File dir = new File(rootPath + File.separator + "tmpFiles");
 				if (!dir.exists())
 					dir.mkdirs();
-	
+
 				// Create the file on server
 				File serverFile = new File(dir.getAbsolutePath() + File.separator + name);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
-	
+
 				System.out.println("Server File Location=" + serverFile.getAbsolutePath());
-	
+
 				File file1 = new File(serverFile.getAbsolutePath());
 				System.out.println("get server file name in the file========" + file1);
 				FileInputStream excelFile = new FileInputStream(new File(serverFile.getAbsolutePath()));
@@ -428,7 +434,7 @@ public class UDeliController {
 				Iterator<Row> iterator = datatypeSheet.iterator();
 				Cell currentCell = null;
 				List orderList = null;
-	
+
 				while (iterator.hasNext()) {
 					Row currentRow = iterator.next();
 					Iterator<Cell> cellIterator = currentRow.iterator();
@@ -465,11 +471,11 @@ public class UDeliController {
 								System.out.println();
 								break;
 							}
-	
+
 						}
-	
+
 					}
-	
+
 					System.out.println(excelCount);
 					if (excelCount != 0) {
 						orderdetails.setOrdertitle(orderList.get(0).toString());
@@ -493,7 +499,7 @@ public class UDeliController {
 						long millis = date1.getTime();
 						Timestamp ts = new Timestamp(millis);
 						orderdetails.setPreferreddeliverytime(ts);
-						/*orderdetails.setStoretocustlocation(10f);*/
+						/* orderdetails.setStoretocustlocation(10f); */
 						System.out.println("Order List Details=======" + orderList);
 						udeliRepo.insertOrderDetails(orderdetails, "insert", userDetailsList.get(0).getMerchantid());
 					}
@@ -502,10 +508,10 @@ public class UDeliController {
 					orderList = null;
 					System.out.println();
 				}
-	
+
 			} catch (Exception e) {
 				System.out.println("catch block details" + e.getMessage());
-	
+
 			}
 			viewOrders(model);
 			redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", excelCount + " Orders Uploaded Successfully ");
@@ -516,13 +522,14 @@ public class UDeliController {
 			return "redirect:/vieworders";
 		}
 	}
-	
+
 	@RequestMapping(value = "/orgDetails", method = RequestMethod.GET)
 	public String orgDetails(HttpServletRequest request, Model model, ProfileDetails profileDetails) {
 
-		//int merchantid = Integer.parseInt(request.getParameter("userDetailsList.get(0).getMerchantid()"));
+		// int merchantid =
+		// Integer.parseInt(request.getParameter("userDetailsList.get(0).getMerchantid()"));
 		List<ProfileDetails> profileDetailsList = udeliRepo.editOrgDetails(userDetailsList.get(0).getMerchantid());
-		
+
 		profileDetails.setAddress(profileDetailsList.get(0).getAddress());
 		profileDetails.setState(profileDetailsList.get(0).getState());
 		profileDetails.setCity(profileDetailsList.get(0).getCity());
@@ -547,72 +554,75 @@ public class UDeliController {
 			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			redirectTo = "orgDetails";
-		} else{
+		} else {
 			udeliRepo.orgData(merchantdetails, userDetailsList.get(0).getMerchantid());
-		redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE", merchantdetails.getGlympseusername()+" updated Successfully");
+			/*redirectAttributes.addFlashAttribute("SUCCESS_MESSAGE",
+					merchantdetails.getGlympseusername() + " updated Successfully");*/
 		}
 
 		model.addAttribute("glympseDetails", merchantdetails);
 		return new ModelAndView("redirect:/vieworders");
 	}
-	
+
 	// Cancel Org Details.
-		@RequestMapping(value = "/orgDetails", params = "cancel", method = RequestMethod.POST)
-		public ModelAndView cancelOrgDetails() {
-			return new ModelAndView("redirect:/vieworders");
-		}
-		
-		@Scheduled(cron = "*/60 * * * * *")
-		public void notification() {
-			System.out.println("notification" + new Date());
-			notificationList = udeliRepo.notification();
-			System.out.println("Notification details"+notificationList);
-			if(notificationList.size() > 0){
-				//for(PushNotification pushNotification1 : notificationList) {
-					
-					for(int index=0; notificationList.size() > index; index++) {
-					PushNotification pnf = (PushNotification)notificationList.get(index);
-			 String title="New Order Request";
-			 System.out.println("Sending an iOS push notification…");
-			 InputStream cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/applePushServices.p12");
-			 ApnsService service = APNS.newService()
-			 .withCert(cert, "arxtlabs")
-			 .withSandboxDestination()
-			 .build(); 
-			 
-			 String payload = APNS.newPayload()
-			 .alertBody("Mearchant "+pnf.getName() +" "+"got a delivery order"+" "+pnf.getOrdertitle())
-			 .alertTitle(title).build();
-			 
-			 String token = pnf.getDevicetoken();
-			 System.out.println("payload: "+payload);
-			 
-			 service.push(token, payload);
+	@RequestMapping(value = "/orgDetails", params = "cancel", method = RequestMethod.POST)
+	public ModelAndView cancelOrgDetails() {
+		return new ModelAndView("redirect:/vieworders");
+	}
+
+	@Scheduled(cron = "*/60 * * * * *")
+	public void notification() {
+		System.out.println("notification" + new Date());
+		notificationList = udeliRepo.notification();
+		newcarriers = udeliRepo.newCarriers();
+		System.out.println("Notification details" + notificationList);
+		PushNotification pnf = null;
+		InputStream cert = null;
+		CarrierDetails  cpnf = null;
+		if (notificationList.size() > 0) {
+			for (int index = 0; notificationList.size() > index; index++) {
+				pnf = (PushNotification) notificationList.get(index);
+				String merchantName = "";
+				merchantName = pnf.getName();
+				String title = "New Order";
+				cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/applePro.p12");
+				ApnsService service = APNS.newService().withCert(cert, "arxtlabs").withProductionDestination().build();
+				String payload = APNS.newPayload()
+						.alertBody("Merchant " + merchantName + " " + "has a new delivery order for you. Click to review.")
+						.alertTitle(title).build();
+				String token = pnf.getDevicetoken();
+				service.push(token, payload);
+				System.out.println("success message");
 				udeliRepo.updateNotificatioStatus(token);
-				}	
 			}
-					 
+		}else if(newcarriers.size() > 0) {
+			for(int index=0; newcarriers.size() > index; index++) {
+				cpnf = (CarrierDetails) newcarriers.get(index);
+				String title = "Carrier Request Submitted for Review";
+				cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/applePro.p12");
+				ApnsService service = APNS.newService().withCert(cert, "arxtlabs").withProductionDestination().build();
+				String payload = APNS.newPayload()
+						.alertBody("Your request has been received and is currently under Review by the Merchant. We will let you know once we have an update – ETA 8 Hours")
+						.alertTitle(title).build();
+				String token = cpnf.getDevicetoken();
+				service.push(token, payload);
+				System.out.println("success message");
+				udeliRepo.updateNewCarriers(token);
+			}
+			
 		}
-		
-		public void requestNotification() {
-			
-			 String title="Carrier Request";
-			 System.out.println("Sending an iOS push notification…");
-			 InputStream cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/applePushServices.p12");
-			 ApnsService service = APNS.newService()
-			 .withCert(cert, "arxtlabs")
-			 .withSandboxDestination()
-			 .build(); 
-			 
-			 String payload = APNS.newPayload()
-			 .alertBody(message)
-			 .alertTitle(title).build();
-			
-			 String token = devicetoken;
-			 System.out.println("payload: "+payload);
-			 
-			 service.push(token, payload);
-			 
-				}	
+
+	}
+
+	public void requestNotification() {
+		//String title = "Carrier Request";
+		InputStream cert = UDeliController.class.getClassLoader().getResourceAsStream("apns/applePro.p12");
+		System.out.println("certifecate" + cert);
+		ApnsService service = APNS.newService().withCert(cert, "arxtlabs").withProductionDestination().build();
+		String payload = APNS.newPayload().alertBody(message).alertTitle(title).build();
+		String token = devicetoken;
+		service.push(token, payload);
+		System.out.println("success message");
+	}
 
 }

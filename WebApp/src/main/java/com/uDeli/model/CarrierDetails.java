@@ -13,7 +13,9 @@ import javax.persistence.Table;
     @NamedStoredProcedureQuery(name = "getcarriers",procedureName = "pgetcarriers",resultClasses = CarrierDetails.class),
     @NamedStoredProcedureQuery(name = "updatecarriers",procedureName = "pupdatecarrier",resultClasses = CarrierDetails.class),
     @NamedStoredProcedureQuery(name = "approvecarriers",procedureName = "pgetApproveCarriers",resultClasses = CarrierDetails.class),
-    @NamedStoredProcedureQuery(name = "denycarriers",procedureName = "pgetDenyCarriers",resultClasses = CarrierDetails.class)
+    @NamedStoredProcedureQuery(name = "denycarriers",procedureName = "pgetDenyCarriers",resultClasses = CarrierDetails.class),
+    @NamedStoredProcedureQuery(name = "newCarriers",procedureName = "pgetNewCarriers",resultClasses = CarrierDetails.class),
+    @NamedStoredProcedureQuery(name = "updateNewCarriers",procedureName = "pupdateNewCarriers",resultClasses = CarrierDetails.class)
 })
 
 
@@ -33,8 +35,9 @@ public class CarrierDetails {
 	private Character active;
 	/*private String merchantName;*/
 	private String devicetoken;
+	private Integer pushnotification;
 	
-	public CarrierDetails(String id, Integer carrierid, String name, String address, String emailid, String phonenumber, Integer merchantid, Character active, String devicetoken) {
+	public CarrierDetails(String id, Integer carrierid, String name, String address, String emailid, String phonenumber, Integer merchantid, Character active, String devicetoken, Integer pushnotification) {
 		super();
 		this.id = id;
 		this.carrierid = carrierid;
@@ -46,6 +49,7 @@ public class CarrierDetails {
 		this.active = active;
 		/*this.merchantName = merchantName;*/
 		this.devicetoken = devicetoken;
+		this.pushnotification = pushnotification;
 	}
 	
 	
@@ -139,6 +143,16 @@ public class CarrierDetails {
 	}
 
 
+	public Integer getPushnotification() {
+		return pushnotification;
+	}
+
+
+	public void setPushnotification(Integer pushnotification) {
+		this.pushnotification = pushnotification;
+	}
+
+	
 	/*public String getMerchantName() {
 		return merchantName;
 	}
